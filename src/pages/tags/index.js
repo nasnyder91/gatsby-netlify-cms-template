@@ -2,7 +2,7 @@ import React from "react";
 import { kebabCase } from "lodash";
 import { Helmet } from "react-helmet";
 import { Link, graphql } from "gatsby";
-import Layout from "../../components/Layout.tsx";
+import Layout from "../../components/layout.tsx";
 
 const TagsPage = ({
     data: {

@@ -1,9 +1,17 @@
+import ImageInfo from "interfaces/image-info";
 import React from "react";
-import PreviewCompatibleImage from "./PreviewCompatibleImage";
+import PreviewCompatibleImage from "./preview-compatible-image";
 
 interface FeatureGridProps {
     gridItems: Array<{ image: {} | string; text: string }>;
 }
+
+const getImageInfo = (item): ImageInfo => {
+    return {
+        alt: item.text,
+        image: item.image,
+    };
+};
 
 const FeatureGrid: React.FC<FeatureGridProps> = ({ gridItems }) => (
     <div className="columns is-multiline">
@@ -16,7 +24,7 @@ const FeatureGrid: React.FC<FeatureGridProps> = ({ gridItems }) => (
                                 width: "240px",
                                 display: "inline-block",
                             }}>
-                            <PreviewCompatibleImage imageInfo={item} />
+                            <PreviewCompatibleImage imageInfo={getImageInfo(item)} />
                         </div>
                     </div>
                     <p>{item.text}</p>
