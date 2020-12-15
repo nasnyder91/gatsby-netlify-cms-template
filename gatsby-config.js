@@ -30,13 +30,6 @@ module.exports = {
                 name: "images",
             },
         },
-        {
-            resolve: "gatsby-source-filesystem",
-            options: {
-                path: `${__dirname}/src/data/inventory`,
-                name: "inventory",
-            },
-        },
         "gatsby-plugin-sharp",
         "gatsby-transformer-sharp",
         {
