@@ -2,6 +2,38 @@ const _ = require("lodash");
 const path = require("path");
 const { createFilePath } = require("gatsby-source-filesystem");
 const { fmImagesToRelative } = require("gatsby-remark-relative-images");
+const fetch = require("node-fetch");
+
+exports.sourceNodes = async ({ actions, cache, createNodeId, createContentDigest }) => {
+    const { createNode } = actions;
+
+    const response = await fetch(
+        "https://sandbox.dev.clover.com/v3/merchants/J9MV77D46ST91/items?access_token=582540d1-2fa6-dd03-7699-e107e6c03c0d",
+        {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+            },
+        }
+    )
+        .then((response) => response.json())
+        .catch((err) => console.log(err));
+
+    response.elements.forEach((item) => {
+        createNode({
+            ...item,
+            id: item.id,
+            parent: null,
+            children: [],
+            internal: {
+                type: "CloverInventoryItems",
+                contentDigest: createContentDigest(item),
+            },
+        });
+    });
+
+    console.log(response.elements);
+};
 
 exports.createPages = ({ actions, graphql }) => {
     const { createPage } = actions;
