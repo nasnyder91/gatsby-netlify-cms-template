@@ -8,7 +8,7 @@ exports.sourceNodes = async ({ actions, cache, createNodeId, createContentDigest
     const { createNode } = actions;
 
     const response = await fetch(
-        "https://sandbox.dev.clover.com/v3/merchants/J9MV77D46ST91/items?access_token=582540d1-2fa6-dd03-7699-e107e6c03c0d",
+        "https://sandbox.dev.clover.com/v3/merchants/J9MV77D46ST91/items?access_token=582540d1-2fa6-dd03-7699-e107e6c03c0d&limit=5",
         {
             method: "GET",
             headers: {
@@ -32,13 +32,51 @@ exports.sourceNodes = async ({ actions, cache, createNodeId, createContentDigest
         });
     });
 
-    console.log(response.elements);
+    // console.log(response.elements);
 };
 
 exports.createPages = ({ actions, graphql }) => {
     const { createPage } = actions;
 
-    return graphql(`
+    const inventoryQuery = graphql(`
+        {
+            allCloverInventoryItems {
+                edges {
+                    node {
+                        id
+                        hidden
+                        name
+                        code
+                        sku
+                        price
+                        stockCount
+                    }
+                }
+            }
+        }
+    `).then((result) => {
+        if (result.errors) {
+            result.errors.forEach((e) => console.error(e.toString()));
+            return Promise.reject(result.errors);
+        }
+
+        const inventoryItems = result.data.allCloverInventoryItems.edges;
+
+        inventoryItems.forEach((item) => {
+            const id = item.node.id;
+            createPage({
+                path: "/items/" + id,
+                // tags: edge.node.frontmatter.tags,
+                component: path.resolve(`src/templates/inventory-item-template.tsx`),
+                // additional data can be passed via context
+                context: {
+                    ...item,
+                },
+            });
+        });
+    });
+
+    const markdownRemarkQuery = graphql(`
         {
             allMarkdownRemark(limit: 1000) {
                 edges {
@@ -102,10 +140,12 @@ exports.createPages = ({ actions, graphql }) => {
             });
         });
     });
+
+    return Promise.all([markdownRemarkQuery, inventoryQuery]);
 };
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
-    const { createNodeField } = actions;
+    const { createNodeField, createNode } = actions;
     fmImagesToRelative(node); // convert image paths for gatsby images
 
     if (node.internal.type === `MarkdownRemark`) {
@@ -115,5 +155,37 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
             node,
             value,
         });
+    }
+
+    if (node.internal.type === "CloverInventoryItems") {
+        // const fileNode = getNode(node.parent);
+        // console.log("\n", createFilePath({ node, getNode }));
+        // const path = createFilePath({
+        //     node,
+        //     getNode,
+        // });
+        // createNodeField({
+        //     name: "inventory",
+        //     node,
+        //     path: `/data/inventory`,
+        // });
+        // const textNode = {
+        //     id: `${node.id}-MarkdownBody`,
+        //     parent: node.id,
+        //     dir: path.resolve("./src/data/inventory"),
+        //     internal: {
+        //         type: `${node.internal.type}MarkdownBody`,
+        //         mediaType: "text/markdown",
+        //         content: node.body,
+        //         // contentDigest: digest(node.body),
+        //     },
+        // };
+        // createNode(textNode);
+        // // Create markdownBody___NODE field
+        // createNodeField({
+        //     node,
+        //     name: "markdownBody___NODE",
+        //     value: textNode.id,
+        // });
     }
 };
