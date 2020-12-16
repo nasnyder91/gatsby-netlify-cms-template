@@ -6,8 +6,6 @@ const fetch = require("node-fetch");
 const fs = require("fs");
 
 exports.sourceNodes = async ({ actions, cache, createNodeId, createContentDigest }) => {
-    const { createNode } = actions;
-
     const response = await fetch(
         "https://sandbox.dev.clover.com/v3/merchants/J9MV77D46ST91/items?access_token=582540d1-2fa6-dd03-7699-e107e6c03c0d&limit=10",
         {
