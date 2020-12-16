@@ -1,87 +1,168 @@
-const _ = require('lodash')
-const path = require('path')
-const { createFilePath } = require('gatsby-source-filesystem')
-const { fmImagesToRelative } = require('gatsby-remark-relative-images')
+const _ = require("lodash");
+const path = require("path");
+const { createFilePath } = require("gatsby-source-filesystem");
+const { fmImagesToRelative } = require("gatsby-remark-relative-images");
+const fetch = require("node-fetch");
+const fs = require("fs");
+
+exports.sourceNodes = async ({ actions, cache, createNodeId, createContentDigest }) => {
+    const { createNode } = actions;
+
+    const response = await fetch(
+        "https://sandbox.dev.clover.com/v3/merchants/J9MV77D46ST91/items?access_token=582540d1-2fa6-dd03-7699-e107e6c03c0d&limit=10",
+        {
+            method: "GET",
+            headers: {
+                Accept: "application/json",
+            },
+        }
+    )
+        .then((response) => response.json())
+        .catch((err) => console.log(err));
+
+    response.elements.forEach((item) => {
+        fs.readFile(`./src/pages/inventory/${item.id}.json`, "utf-8", (err, data) => {
+            let itemObject;
+
+            if (!err) {
+                itemObject = { ...JSON.parse(data), ...item };
+            } else {
+                itemObject = { ...item, active: false, description: "", image: null };
+            }
+
+            fs.writeFile(
+                `./src/pages/inventory/${item.id}.json`,
+                JSON.stringify(itemObject),
+                "utf-8",
+                (err) => {
+                    if (err) {
+                        throw err;
+                    }
+                }
+            );
+        });
+    });
+};
 
 exports.createPages = ({ actions, graphql }) => {
-  const { createPage } = actions
+    const { createPage } = actions;
 
-  return graphql(`
-    {
-      allMarkdownRemark(limit: 1000) {
-        edges {
-          node {
-            id
-            fields {
-              slug
+    const inventoryQuery = graphql(`
+        {
+            allInventoryJson {
+                edges {
+                    node {
+                        id
+                        hidden
+                        name
+                        code
+                        sku
+                        price
+                        stockCount
+                    }
+                }
             }
-            frontmatter {
-              tags
-              templateKey
-            }
-          }
         }
-      }
-    }
-  `).then((result) => {
-    if (result.errors) {
-      result.errors.forEach((e) => console.error(e.toString()))
-      return Promise.reject(result.errors)
-    }
+    `).then((result) => {
+        if (result.errors) {
+            result.errors.forEach((e) => console.error(e.toString()));
+            return Promise.reject(result.errors);
+        }
+        console.log(result);
+        const inventoryItems = result.data.allInventoryJson.edges;
 
-    const posts = result.data.allMarkdownRemark.edges
+        inventoryItems.forEach((item) => {
+            const id = item.node.id;
+            createPage({
+                path: "/items/" + id,
+                // tags: edge.node.frontmatter.tags,
+                component: path.resolve(`src/templates/inventory-item-template.tsx`),
+                // additional data can be passed via context
+                context: {
+                    ...item,
+                },
+            });
+        });
+    });
 
-    posts.forEach((edge) => {
-      const id = edge.node.id
-      createPage({
-        path: edge.node.fields.slug,
-        tags: edge.node.frontmatter.tags,
-        component: path.resolve(
-          `src/templates/${String(edge.node.frontmatter.templateKey)}.js`
-        ),
-        // additional data can be passed via context
-        context: {
-          id,
-        },
-      })
-    })
+    const markdownRemarkQuery = graphql(`
+        {
+            allMarkdownRemark(limit: 1000) {
+                edges {
+                    node {
+                        id
+                        fields {
+                            slug
+                        }
+                        frontmatter {
+                            tags
+                            templateKey
+                        }
+                    }
+                }
+            }
+        }
+    `).then((result) => {
+        if (result.errors) {
+            result.errors.forEach((e) => console.error(e.toString()));
+            return Promise.reject(result.errors);
+        }
 
-    // Tag pages:
-    let tags = []
-    // Iterate through each post, putting all found tags into `tags`
-    posts.forEach((edge) => {
-      if (_.get(edge, `node.frontmatter.tags`)) {
-        tags = tags.concat(edge.node.frontmatter.tags)
-      }
-    })
-    // Eliminate duplicate tags
-    tags = _.uniq(tags)
+        const posts = result.data.allMarkdownRemark.edges;
 
-    // Make tag pages
-    tags.forEach((tag) => {
-      const tagPath = `/tags/${_.kebabCase(tag)}/`
+        posts.forEach((edge) => {
+            const id = edge.node.id;
+            createPage({
+                path: edge.node.fields.slug,
+                tags: edge.node.frontmatter.tags,
+                component: path.resolve(
+                    `src/templates/${String(edge.node.frontmatter.templateKey)}.tsx`
+                ),
+                // additional data can be passed via context
+                context: {
+                    id,
+                },
+            });
+        });
 
-      createPage({
-        path: tagPath,
-        component: path.resolve(`src/templates/tags.js`),
-        context: {
-          tag,
-        },
-      })
-    })
-  })
-}
+        // Tag pages:
+        let tags = [];
+        // Iterate through each post, putting all found tags into `tags`
+        posts.forEach((edge) => {
+            if (_.get(edge, `node.frontmatter.tags`)) {
+                tags = tags.concat(edge.node.frontmatter.tags);
+            }
+        });
+        // Eliminate duplicate tags
+        tags = _.uniq(tags);
+
+        // Make tag pages
+        tags.forEach((tag) => {
+            const tagPath = `/tags/${_.kebabCase(tag)}/`;
+
+            createPage({
+                path: tagPath,
+                component: path.resolve(`src/templates/tags.tsx`),
+                context: {
+                    tag,
+                },
+            });
+        });
+    });
+
+    return Promise.all([markdownRemarkQuery, inventoryQuery]);
+};
 
 exports.onCreateNode = ({ node, actions, getNode }) => {
-  const { createNodeField } = actions
-  fmImagesToRelative(node) // convert image paths for gatsby images
+    const { createNodeField, createNode } = actions;
+    fmImagesToRelative(node); // convert image paths for gatsby images
 
-  if (node.internal.type === `MarkdownRemark`) {
-    const value = createFilePath({ node, getNode })
-    createNodeField({
-      name: `slug`,
-      node,
-      value,
-    })
-  }
-}
+    if (node.internal.type === `MarkdownRemark`) {
+        const value = createFilePath({ node, getNode });
+        createNodeField({
+            name: `slug`,
+            node,
+            value,
+        });
+    }
+};
