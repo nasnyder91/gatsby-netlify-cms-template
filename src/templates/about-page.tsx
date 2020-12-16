@@ -1,10 +1,11 @@
 import React from "react";
 import { graphql } from "gatsby";
 import Layout from "../components/layout";
+import { HTMLContent } from "../components/content";
 
 interface AboutPageTemplateProps {
     content: string;
-    contentComponent?: any;
+    contentComponent?: typeof HTMLContent;
     title: string;
 }
 
@@ -13,7 +14,7 @@ export const AboutPageTemplate: React.FC<AboutPageTemplateProps> = ({
     content,
     contentComponent,
 }) => {
-    const PageContent = contentComponent;
+    const PageContent = contentComponent || HTMLContent;
 
     return (
         <section className="section section--gradient">
