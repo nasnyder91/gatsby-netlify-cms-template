@@ -72,6 +72,7 @@ collections:
     label: "Inventory Items"
     folder: "src/pages/inventory"
     create: false
+    slug: "{{id}}-{{name}}"
     fields:
       - {label: Active, name: active, widget: "boolean"}
       - {label: Description, name: description, widget: "text"}
