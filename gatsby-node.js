@@ -27,7 +27,14 @@ exports.sourceNodes = async ({ actions, cache, createNodeId, createContentDigest
             if (!err) {
                 itemObject = { ...JSON.parse(data), ...item };
             } else {
-                itemObject = { ...item, active: false, description: "", image: null };
+                itemObject = {
+                    ...item,
+                    title: item.name,
+                    active: false,
+                    description: "",
+                    image: null,
+                    templateKey: "inventory-item-template",
+                };
             }
 
             fs.writeFile(
