@@ -3,11 +3,10 @@ import { kebabCase } from "lodash";
 import { Helmet } from "react-helmet";
 import { graphql, Link } from "gatsby";
 import Layout from "../components/layout";
-import { HTMLContent } from "../components/content";
 
 interface BlogPostTemplateProps {
     content: React.FC;
-    contentComponent?: typeof HTMLContent;
+    contentComponent?: any;
     description: string;
     tags: Array<string>;
     title: string;
@@ -22,7 +21,7 @@ export const BlogPostTemplate: React.FC<BlogPostTemplateProps> = ({
     title,
     helmet,
 }) => {
-    const PostContent = contentComponent || HTMLContent;
+    const PostContent = contentComponent;
 
     return (
         <section className="section">
