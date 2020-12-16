@@ -3,12 +3,13 @@ const path = require("path");
 const { createFilePath } = require("gatsby-source-filesystem");
 const { fmImagesToRelative } = require("gatsby-remark-relative-images");
 const fetch = require("node-fetch");
+const fs = require("fs");
 
 exports.sourceNodes = async ({ actions, cache, createNodeId, createContentDigest }) => {
     const { createNode } = actions;
 
     const response = await fetch(
-        "https://sandbox.dev.clover.com/v3/merchants/J9MV77D46ST91/items?access_token=582540d1-2fa6-dd03-7699-e107e6c03c0d&limit=5",
+        "https://sandbox.dev.clover.com/v3/merchants/J9MV77D46ST91/items?access_token=582540d1-2fa6-dd03-7699-e107e6c03c0d&limit=10",
         {
             method: "GET",
             headers: {
@@ -20,19 +21,27 @@ exports.sourceNodes = async ({ actions, cache, createNodeId, createContentDigest
         .catch((err) => console.log(err));
 
     response.elements.forEach((item) => {
-        createNode({
-            ...item,
-            id: item.id,
-            parent: null,
-            children: [],
-            internal: {
-                type: "CloverInventoryItems",
-                contentDigest: createContentDigest(item),
-            },
+        fs.readFile(`./src/pages/inventory/${item.id}.json`, "utf-8", (err, data) => {
+            let itemObject;
+
+            if (!err) {
+                itemObject = { ...JSON.parse(data), ...item };
+            } else {
+                itemObject = { ...item, active: false, description: "", image: null };
+            }
+
+            fs.writeFile(
+                `./src/pages/inventory/${item.id}.json`,
+                JSON.stringify(itemObject),
+                "utf-8",
+                (err) => {
+                    if (err) {
+                        throw err;
+                    }
+                }
+            );
         });
     });
-
-    // console.log(response.elements);
 };
 
 exports.createPages = ({ actions, graphql }) => {
@@ -40,7 +49,7 @@ exports.createPages = ({ actions, graphql }) => {
 
     const inventoryQuery = graphql(`
         {
-            allCloverInventoryItems {
+            allInventoryJson {
                 edges {
                     node {
                         id
@@ -59,8 +68,8 @@ exports.createPages = ({ actions, graphql }) => {
             result.errors.forEach((e) => console.error(e.toString()));
             return Promise.reject(result.errors);
         }
-
-        const inventoryItems = result.data.allCloverInventoryItems.edges;
+        console.log(result);
+        const inventoryItems = result.data.allInventoryJson.edges;
 
         inventoryItems.forEach((item) => {
             const id = item.node.id;
@@ -155,37 +164,5 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
             node,
             value,
         });
-    }
-
-    if (node.internal.type === "CloverInventoryItems") {
-        // const fileNode = getNode(node.parent);
-        // console.log("\n", createFilePath({ node, getNode }));
-        // const path = createFilePath({
-        //     node,
-        //     getNode,
-        // });
-        // createNodeField({
-        //     name: "inventory",
-        //     node,
-        //     path: `/data/inventory`,
-        // });
-        // const textNode = {
-        //     id: `${node.id}-MarkdownBody`,
-        //     parent: node.id,
-        //     dir: path.resolve("./src/data/inventory"),
-        //     internal: {
-        //         type: `${node.internal.type}MarkdownBody`,
-        //         mediaType: "text/markdown",
-        //         content: node.body,
-        //         // contentDigest: digest(node.body),
-        //     },
-        // };
-        // createNode(textNode);
-        // // Create markdownBody___NODE field
-        // createNodeField({
-        //     node,
-        //     name: "markdownBody___NODE",
-        //     value: textNode.id,
-        // });
     }
 };

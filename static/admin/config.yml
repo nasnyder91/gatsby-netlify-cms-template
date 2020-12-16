@@ -1,3 +1,4 @@
+
 backend:
   name: git-gateway
   branch: master
@@ -7,6 +8,8 @@ backend:
     delete: 'Delete {{collection}} “{{slug}}”'
     uploadMedia: '[skip ci] Upload “{{path}}”'
     deleteMedia: '[skip ci] Delete “{{path}}”'
+
+local_backend: true
 
 media_folder: static/img
 public_folder: /img
@@ -65,7 +68,11 @@ collections:
           - {label: Full_image, name: full_image, widget: image}
           - {label: Pricing, name: pricing, widget: object, fields: [{label: Heading, name: heading, widget: string}, {label: Description, name: description, widget: string}, {label: Plans, name: plans, widget: list, fields: [{label: Plan, name: plan, widget: string}, {label: Price, name: price, widget: string}, {label: Description, name: description, widget: string}, {label: Items, name: items, widget: list}]}]}
   - name: "inventory"
+    extension: "json"
     label: "Inventory Items"
-    folder: "public/page-data/items"
+    folder: "src/pages/inventory"
+    create: false
     fields:
-      - {label: Test, name: test, widget: "boolean"}
+      - {label: Active, name: active, widget: "boolean"}
+      - {label: Description, name: description, widget: "text"}
+      - {label: Image, name: image, widget: "image"}

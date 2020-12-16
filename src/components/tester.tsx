@@ -3,7 +3,7 @@ import { graphql, StaticQuery } from "gatsby";
 
 const Tester: React.FC<any> = ({ data }) => {
     console.log(data);
-    const items = data.allCloverInventoryItems.edges;
+    const items = data.allInventoryJson.edges;
     return (
         <div>
             {items.map((item) => (
@@ -17,7 +17,7 @@ export default () => (
     <StaticQuery
         query={graphql`
             query CloverInventoryQuery {
-                allCloverInventoryItems {
+                allInventoryJson {
                     edges {
                         node {
                             id
