@@ -1,1 +1,21 @@
-{"title":"Caramel Brownie","active":false,"description":"","image":null,"templateKey":"inventory-item-template","id":"4NTAMYRJ4RCWC","hidden":false,"name":"Caramel Brownie","alternateName":"","code":"","sku":"","price":160,"priceType":"FIXED","defaultTaxRates":true,"unitName":"","cost":0,"isRevenue":true,"stockCount":0,"modifiedTime":1607953355000}
+{
+  "priceType": "FIXED",
+  "alternateName": "",
+  "templateKey": "inventory-item-template",
+  "active": true,
+  "defaultTaxRates": true,
+  "price": 160,
+  "hidden": false,
+  "name": "Caramel Brownie",
+  "code": "",
+  "cost": 0,
+  "unitName": "",
+  "isRevenue": true,
+  "modifiedTime": 1607953355000,
+  "title": "Caramel Brownie",
+  "stockCount": 0,
+  "id": "4NTAMYRJ4RCWC",
+  "image": "/img/81650686-wooden-fruit-bowl-isolated-over-white-background.jpg",
+  "description": "This is a brownie",
+  "sku": ""
+}
