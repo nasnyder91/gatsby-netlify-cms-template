@@ -63,14 +63,7 @@ const runPrebuild = async () => {
         }
 
         const gitRefResponse = await fetch(
-            "https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/ref/heads/master",
-            {
-                method: "GET",
-                headers: {
-                    Accept: "application/vnd.github.v3+json",
-                    Authorization: "token 1e3d9796cf73b0fa01e51bec9f0086a515744e6a",
-                },
-            }
+            "https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/ref/heads/master"
         )
             .then((response) => response.json())
             .catch((err) => console.log(err));
