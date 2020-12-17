@@ -63,12 +63,19 @@ const runPrebuild = async () => {
         }
 
         const gitRefResponse = await fetch(
-            "https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/ref/heads/master"
+            "https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/ref/heads/master",
+            {
+                method: "GET",
+                headers: {
+                    Accept: "application/vnd.github.v3+json",
+                    Authorization: "token 1e3d9796cf73b0fa01e51bec9f0086a515744e6a",
+                },
+            }
         )
             .then((response) => response.json())
             .catch((err) => console.log(err));
 
-        // console.log(gitRefResponse.object);
+        console.log(gitRefResponse.object);
 
         const postTreeBody = {
             tree: treeItems,
@@ -86,7 +93,7 @@ const runPrebuild = async () => {
             }
         ).then((response) => response.json());
 
-        // console.log("TREE: ", newTreeResponse);
+        console.log("TREE: ", newTreeResponse);
 
         const commitBody = {
             message: `${itemsChanged.length} items synced from Clover API`,
@@ -105,7 +112,7 @@ const runPrebuild = async () => {
             }
         ).then((response) => response.json());
 
-        // console.log(commitResponse);
+        console.log(commitResponse);
         const updateRefBody = {
             sha: commitResponse.sha,
         };
