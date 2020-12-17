@@ -80,7 +80,7 @@ const runPrebuild = async () => {
                 method: "POST",
                 headers: {
                     Accept: "application/vnd.github.v3+json",
-                    Authorization: "token 1e3d9796cf73b0fa01e51bec9f0086a515744e6a",
+                    Authorization: "token eacf3595b052434fc807e48f88ba14285eec1868",
                 },
                 body: JSON.stringify(postTreeBody),
             }
@@ -99,7 +99,7 @@ const runPrebuild = async () => {
                 method: "POST",
                 headers: {
                     Accept: "application/vnd.github.v3+json",
-                    Authorization: "token 1e3d9796cf73b0fa01e51bec9f0086a515744e6a",
+                    Authorization: "token eacf3595b052434fc807e48f88ba14285eec1868",
                 },
                 body: JSON.stringify(commitBody),
             }
@@ -116,7 +116,7 @@ const runPrebuild = async () => {
                 method: "PATCH",
                 headers: {
                     Accept: "application/vnd.github.v3+json",
-                    Authorization: "token 1e3d9796cf73b0fa01e51bec9f0086a515744e6a",
+                    Authorization: "token eacf3595b052434fc807e48f88ba14285eec1868",
                 },
                 body: JSON.stringify(updateRefBody),
             }
