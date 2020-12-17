@@ -139,6 +139,8 @@ const runPrebuild = async () => {
             );
 
             // console.log(cancelDeployResponse);
+
+            console.log("Successfully committed new inventory items and cancelled current deploy");
         } catch (err) {
             console.error("Could not successfully add new inventory items", err);
         }
