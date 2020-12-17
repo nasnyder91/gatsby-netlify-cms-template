@@ -134,7 +134,7 @@ const runPrebuild = async () => {
                 method: "POST",
                 headers: {
                     Accept: "application/json",
-                    Authorization: "bearer YFbNXSPrsJVbfNDXeo09gOfCno3VNydSh6wNoLX5AnY",
+                    Authorization: `bearer ${process.env.NETLIFY_API_TOKEN}`,
                 },
             }
         );
