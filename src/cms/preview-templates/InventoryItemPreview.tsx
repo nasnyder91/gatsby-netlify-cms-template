@@ -1,5 +1,5 @@
 import React from "react";
-import InventoryItemTemplate from "../../templates/inventory-item-template";
+import { InventoryItemTemplate } from "../../templates/inventory-item";
 
 interface BlogPostPreviewProps {
     entry: { getIn: (data: Array<string>) => any };
@@ -7,12 +7,12 @@ interface BlogPostPreviewProps {
 }
 
 const InventoryItemPreview: React.FC<BlogPostPreviewProps> = ({ entry, widgetFor }) => {
-    const tags = entry.getIn(["data", "tags"]);
+    // const tags = entry.getIn(["data", "tags"]);
     return (
         <InventoryItemTemplate
             content={widgetFor("body")}
             description={entry.getIn(["data", "description"])}
-            tags={tags && tags.toJS()}
+            // tags={tags && tags.toJS()}
             title={entry.getIn(["data", "title"])}
         />
     );

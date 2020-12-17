@@ -40,6 +40,9 @@ const Navbar: React.FC = () => {
                         <Link className="navbar-item" to="/contact/examples">
                             Form Examples
                         </Link>
+                        <Link className="navbar-item" to="/inventory">
+                            Store
+                        </Link>
                     </div>
                     <div className="navbar-end has-text-centered">
                         <a

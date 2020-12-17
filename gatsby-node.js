@@ -12,12 +12,6 @@ exports.createPages = ({ actions, graphql }) => {
                 edges {
                     node {
                         id
-                        hidden
-                        name
-                        code
-                        sku
-                        price
-                        stockCount
                     }
                 }
             }
@@ -34,10 +28,10 @@ exports.createPages = ({ actions, graphql }) => {
             createPage({
                 path: "/items/" + id,
                 // tags: edge.node.frontmatter.tags,
-                component: path.resolve(`src/templates/inventory-item-template.tsx`),
+                component: path.resolve(`src/templates/inventory-item.tsx`),
                 // additional data can be passed via context
                 context: {
-                    ...item,
+                    id,
                 },
             });
         });
