@@ -40,6 +40,7 @@
   "license": "MIT",
   "main": "n/a",
   "scripts": {
+    "prebuild": "node ./loadInventory.js",
     "clean": "gatsby clean",
     "start": "npm run develop",
     "build": "npm run clean && gatsby build",
