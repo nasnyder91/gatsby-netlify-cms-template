@@ -86,7 +86,7 @@ const runPrebuild = async () => {
             }
         ).then((response) => response.json());
 
-        console.log("TREE: ", newTreeResponse);
+        console.log("TREE: ", treeResponse);
 
         const commitBody = {
             message: `${itemsChanged.length} items synced from Clover API`,
@@ -106,6 +106,7 @@ const runPrebuild = async () => {
         ).then((response) => response.json());
 
         console.log(commitResponse);
+
         const updateRefBody = {
             sha: commitResponse.sha,
         };
