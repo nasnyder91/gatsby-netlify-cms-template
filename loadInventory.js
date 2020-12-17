@@ -51,94 +51,97 @@ const runPrebuild = async () => {
         const treeItems = [];
 
         if (!process.env.GITHUB_API_TOKEN) {
-            // THROW THIS SHIT OUT
+            console.error("Github API Token not set");
+            return;
         }
 
-        for (const item of itemsChanged) {
-            const itemPath = `src/pages/inventory/${item.id}.json`;
+        try {
+            for (const item of itemsChanged) {
+                const itemPath = `src/pages/inventory/${item.id}.json`;
 
-            treeItems.push({
-                path: itemPath,
-                // sha: itemGit.sha,
-                mode: "100644",
-                type: "blob",
-                content: JSON.stringify(item),
-            });
+                treeItems.push({
+                    path: itemPath,
+                    mode: "100644",
+                    type: "blob",
+                    content: JSON.stringify(item),
+                });
+            }
+
+            const gitRefResponse = await fetch(
+                "https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/ref/heads/master"
+            ).then((response) => response.json());
+
+            // console.log(gitRefResponse.object);
+
+            const postTreeBody = {
+                tree: treeItems,
+                base_tree: gitRefResponse.object.sha,
+            };
+            const treeResponse = await fetch(
+                "https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/trees",
+                {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/vnd.github.v3+json",
+                        Authorization: `token ${process.env.GITHUB_API_TOKEN}`,
+                    },
+                    body: JSON.stringify(postTreeBody),
+                }
+            ).then((response) => response.json());
+
+            // console.log("TREE: ", treeResponse);
+
+            const commitBody = {
+                message: `${itemsChanged.length} items synced from Clover API`,
+                tree: treeResponse.sha,
+                parents: [gitRefResponse.object.sha],
+            };
+            const commitResponse = await fetch(
+                "https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/commits",
+                {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/vnd.github.v3+json",
+                        Authorization: `token ${process.env.GITHUB_API_TOKEN}`,
+                    },
+                    body: JSON.stringify(commitBody),
+                }
+            ).then((response) => response.json());
+
+            // console.log(commitResponse);
+
+            const updateRefBody = {
+                sha: commitResponse.sha,
+            };
+            const updateRefResponse = await fetch(
+                "https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/refs/heads/master",
+                {
+                    method: "PATCH",
+                    headers: {
+                        Accept: "application/vnd.github.v3+json",
+                        Authorization: `token ${process.env.GITHUB_API_TOKEN}`,
+                    },
+                    body: JSON.stringify(updateRefBody),
+                }
+            ).then((response) => response.json());
+
+            // console.log(updateRefResponse);
+
+            const cancelDeployResponse = await fetch(
+                `https://api.netlify.com/api/v1/deploys/${process.env.DEPLOY_ID}/cancel`,
+                {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        Authorization: `bearer ${process.env.NETLIFY_API_TOKEN}`,
+                    },
+                }
+            );
+
+            // console.log(cancelDeployResponse);
+        } catch (err) {
+            console.error("Could not successfully add new inventory items", err);
         }
-
-        const gitRefResponse = await fetch(
-            "https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/ref/heads/master"
-        )
-            .then((response) => response.json())
-            .catch((err) => console.log(err));
-
-        // console.log(gitRefResponse.object);
-
-        const postTreeBody = {
-            tree: treeItems,
-            base_tree: gitRefResponse.object.sha,
-        };
-        const treeResponse = await fetch(
-            "https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/trees",
-            {
-                method: "POST",
-                headers: {
-                    Accept: "application/vnd.github.v3+json",
-                    Authorization: `token ${process.env.GITHUB_API_TOKEN}`,
-                },
-                body: JSON.stringify(postTreeBody),
-            }
-        ).then((response) => response.json());
-
-        // console.log("TREE: ", treeResponse);
-
-        const commitBody = {
-            message: `${itemsChanged.length} items synced from Clover API`,
-            tree: treeResponse.sha,
-            parents: [gitRefResponse.object.sha],
-        };
-        const commitResponse = await fetch(
-            "https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/commits",
-            {
-                method: "POST",
-                headers: {
-                    Accept: "application/vnd.github.v3+json",
-                    Authorization: `token ${process.env.GITHUB_API_TOKEN}`,
-                },
-                body: JSON.stringify(commitBody),
-            }
-        ).then((response) => response.json());
-
-        // console.log(commitResponse);
-
-        const updateRefBody = {
-            sha: commitResponse.sha,
-        };
-        const updateRefResponse = await fetch(
-            "https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/refs/heads/master",
-            {
-                method: "PATCH",
-                headers: {
-                    Accept: "application/vnd.github.v3+json",
-                    Authorization: `token ${process.env.GITHUB_API_TOKEN}`,
-                },
-                body: JSON.stringify(updateRefBody),
-            }
-        ).then((response) => response.json());
-
-        // console.log(updateRefResponse);
-
-        const cancelDeployResponse = await fetch(
-            `https://api.netlify.com/api/v1/deploys/${process.env.DEPLOY_ID}/cancel`,
-            {
-                method: "POST",
-                headers: {
-                    Accept: "application/json",
-                    Authorization: `bearer ${process.env.NETLIFY_API_TOKEN}`,
-                },
-            }
-        );
-        console.log(cancelDeployResponse);
     }
 };
 

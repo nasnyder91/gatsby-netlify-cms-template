@@ -17,7 +17,7 @@ export default () => (
     <StaticQuery
         query={graphql`
             query CloverInventoryQuery {
-                allInventoryJson {
+                allInventoryJson(filter: { active: { eq: true } }) {
                     edges {
                         node {
                             id

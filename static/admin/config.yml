@@ -74,7 +74,7 @@ collections:
     create: false
     slug: "{{id}}-{{name}}"
     fields:
-      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Template Key", name: "templateKey", widget: "hidden", default: "inventory-item-template"}
       - {label: Active, name: active, widget: "boolean"}
       - {label: Description, name: description, widget: "text"}
       - {label: Image, name: image, widget: "image"}
