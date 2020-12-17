@@ -50,6 +50,10 @@ const runPrebuild = async () => {
     if (itemsChanged.length > 0) {
         const treeItems = [];
 
+        if (!process.env.GITHUB_API_TOKEN) {
+            // THROW THIS SHIT OUT
+        }
+
         for (const item of itemsChanged) {
             const itemPath = `src/pages/inventory/${item.id}.json`;
 
@@ -80,7 +84,7 @@ const runPrebuild = async () => {
                 method: "POST",
                 headers: {
                     Accept: "application/vnd.github.v3+json",
-                    Authorization: "token 724f2aae970ce306592c3a406eeb2425748c8c6d",
+                    Authorization: `token ${process.env.GITHUB_API_TOKEN}`,
                 },
                 body: JSON.stringify(postTreeBody),
             }
@@ -99,7 +103,7 @@ const runPrebuild = async () => {
                 method: "POST",
                 headers: {
                     Accept: "application/vnd.github.v3+json",
-                    Authorization: "token 724f2aae970ce306592c3a406eeb2425748c8c6d",
+                    Authorization: `token ${process.env.GITHUB_API_TOKEN}`,
                 },
                 body: JSON.stringify(commitBody),
             }
@@ -116,7 +120,7 @@ const runPrebuild = async () => {
                 method: "PATCH",
                 headers: {
                     Accept: "application/vnd.github.v3+json",
-                    Authorization: "token 724f2aae970ce306592c3a406eeb2425748c8c6d",
+                    Authorization: `token ${process.env.GITHUB_API_TOKEN}`,
                 },
                 body: JSON.stringify(updateRefBody),
             }
