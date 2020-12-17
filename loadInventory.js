@@ -127,6 +127,18 @@ const runPrebuild = async () => {
         ).then((response) => response.json());
 
         console.log(updateRefResponse);
+
+        const cancelDeployResponse = await fetch(
+            `https://api.netlify.com/api/v1/deploys/${process.env.DEPLOY_ID}/cancel`,
+            {
+                method: "POST",
+                headers: {
+                    Accept: "application/json",
+                    Authorization: "token YFbNXSPrsJVbfNDXeo09gOfCno3VNydSh6wNoLX5AnY",
+                },
+            }
+        ).then((response) => response.json());
+        console.log(cancelDeployResponse);
     }
 };
 
