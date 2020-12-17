@@ -72,7 +72,7 @@ const runPrebuild = async () => {
             .then((response) => response.json())
             .catch((err) => console.log(err));
 
-        console.log(gitRefResponse.object);
+        // console.log(gitRefResponse.object);
 
         const postTreeBody = {
             tree: treeItems,
@@ -90,7 +90,7 @@ const runPrebuild = async () => {
             }
         ).then((response) => response.json());
 
-        console.log("TREE: ", treeResponse);
+        // console.log("TREE: ", treeResponse);
 
         const commitBody = {
             message: `${itemsChanged.length} items synced from Clover API`,
@@ -109,7 +109,7 @@ const runPrebuild = async () => {
             }
         ).then((response) => response.json());
 
-        console.log(commitResponse);
+        // console.log(commitResponse);
 
         const updateRefBody = {
             sha: commitResponse.sha,
@@ -126,7 +126,7 @@ const runPrebuild = async () => {
             }
         ).then((response) => response.json());
 
-        console.log(updateRefResponse);
+        // console.log(updateRefResponse);
 
         const cancelDeployResponse = await fetch(
             `https://api.netlify.com/api/v1/deploys/${process.env.DEPLOY_ID}/cancel`,
@@ -137,7 +137,7 @@ const runPrebuild = async () => {
                     Authorization: "token YFbNXSPrsJVbfNDXeo09gOfCno3VNydSh6wNoLX5AnY",
                 },
             }
-        ).then((response) => response.json());
+        );
         console.log(cancelDeployResponse);
     }
 };
