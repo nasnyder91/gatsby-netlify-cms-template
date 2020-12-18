@@ -8,7 +8,8 @@ module.exports = {
         "gatsby-plugin-react-helmet",
         "gatsby-plugin-sass",
         `gatsby-plugin-typescript`,
-        `gatsby-transformer-json`,
+        "gatsby-plugin-sharp",
+        "gatsby-transformer-sharp",
         {
             // keep as first gatsby-source-filesystem plugin for gatsby image support
             resolve: "gatsby-source-filesystem",
@@ -31,8 +32,6 @@ module.exports = {
                 name: "images",
             },
         },
-        "gatsby-plugin-sharp",
-        "gatsby-transformer-sharp",
         {
             resolve: "gatsby-transformer-remark",
             options: {
@@ -67,6 +66,7 @@ module.exports = {
                 modulePath: `${__dirname}/src/cms/cms.js`,
             },
         },
+        `gatsby-transformer-json`,
         {
             resolve: "gatsby-plugin-purgecss", // purges all unused/unreferenced css rules
             options: {

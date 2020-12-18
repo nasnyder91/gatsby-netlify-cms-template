@@ -3,7 +3,7 @@ const fs = require("fs");
 
 const runPrebuild = async () => {
     const response = await fetch(
-        "https://sandbox.dev.clover.com/v3/merchants/J9MV77D46ST91/items?access_token=582540d1-2fa6-dd03-7699-e107e6c03c0d&limit=10",
+        "https://sandbox.dev.clover.com/v3/merchants/J9MV77D46ST91/items?access_token=582540d1-2fa6-dd03-7699-e107e6c03c0d&limit=20",
         {
             method: "GET",
             headers: {
@@ -36,8 +36,8 @@ const runPrebuild = async () => {
             fileData = {
                 title: item.name,
                 active: false,
-                description: "",
-                image: null,
+                description: "description",
+                image: "/img/placeholder.png",
                 templateKey: "inventory-item-template",
             };
         }

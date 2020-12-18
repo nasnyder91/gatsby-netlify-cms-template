@@ -117,4 +117,14 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
             value,
         });
     }
+
+    if (node.internal.type === "InventoryJson") {
+        const relativePath = `../../../static${node.image}`;
+
+        createNodeField({
+            node,
+            name: "image",
+            value: relativePath,
+        });
+    }
 };

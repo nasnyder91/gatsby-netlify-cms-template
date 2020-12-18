@@ -77,5 +77,6 @@ collections:
       - {label: "Template Key", name: "templateKey", widget: "hidden", default: "inventory-item-page"}
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Active", name: "active", widget: "boolean"}
+      - {label: "Featured", name: "featured", widget: "boolean"}
       - {label: "Description", name: "description", widget: "text"}
       - {label: "Image", name: "image", widget: "image"}
