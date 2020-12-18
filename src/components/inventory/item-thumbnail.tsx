@@ -10,22 +10,33 @@ interface ItemThumbnailProps {
 }
 
 const ItemThumbnail: React.FC<ItemThumbnailProps> = ({ cssClassName, item }) => {
+    console.log(item);
     return (
         <div className={cssClassName}>
             <Link
                 // className="title has-text-primary is-size-4"
                 to={`/items/${item.id}`}>
-                <p>{item.title}</p>
-                <PreviewCompatibleImage
-                    imageInfo={{
-                        image: item.fields.image,
-                        alt: `image of ${item.title}`,
-                        style: {
-                            maxWidth: "150px",
-                        },
-                    }}
-                />
-                <p>{formatCurrency(item.price / 100)}</p>
+                <div className="card">
+                    <div className="card-image">
+                        <figure className="image">
+                            <PreviewCompatibleImage
+                                imageInfo={{
+                                    image: item.fields.image,
+                                    alt: `image of ${item.title}`,
+                                    style: {
+                                        maxWidth: "150px",
+                                    },
+                                }}
+                            />
+                        </figure>
+                    </div>
+                    <div className="card-content">
+                        <div className="content">
+                            <p>{item.title}</p>
+                            <p>{formatCurrency(item.price / 100)}</p>
+                        </div>
+                    </div>
+                </div>
             </Link>
         </div>
     );
