@@ -1,5 +1,5 @@
 import React from "react";
-import { InventoryItemTemplate } from "../../templates/inventory-item";
+import { InventoryItemTemplate } from "../../templates/inventory-item-page";
 
 interface BlogPostPreviewProps {
     entry: { getIn: (data: Array<string>) => any };

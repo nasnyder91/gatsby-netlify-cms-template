@@ -1,25 +1,23 @@
 import React from "react";
-import { kebabCase } from "lodash";
 import { Helmet } from "react-helmet";
 import { graphql, Link } from "gatsby";
 import Layout from "../components/layout";
 import { HTMLContent } from "../components/content";
+import PreviewCompatibleImage from "../components/preview-compatible-image";
+import InventoryItem from "interfaces/inventory-item";
+import Breadcrumbs from "../components/breadcrumbs";
 
 interface InventoryItemTemplateProps {
-    content: React.FC;
+    item: InventoryItem;
     contentComponent?: typeof HTMLContent;
-    description: string;
     // tags: Array<string>;
-    title: string;
     helmet?: any;
 }
 
 export const InventoryItemTemplate: React.FC<InventoryItemTemplateProps> = ({
-    content,
+    item,
     contentComponent,
-    description,
     // tags,
-    title,
     helmet,
 }) => {
     const PostContent = contentComponent || HTMLContent;
@@ -27,26 +25,32 @@ export const InventoryItemTemplate: React.FC<InventoryItemTemplateProps> = ({
     return (
         <section className="section">
             {helmet || ""}
+            <Breadcrumbs
+                breadcrumbs={[
+                    { href: `/inventory`, name: "Store" },
+                    { href: `/items/${item.id}`, name: item.title },
+                ]}
+            />
             <div className="container content">
                 <div className="columns">
                     <div className="column is-10 is-offset-1">
                         <h1 className="title is-size-2 has-text-weight-bold is-bold-light">
-                            {title}
+                            {item.title}
                         </h1>
-                        <p>{description}</p>
-                        <PostContent content={content} />
-                        {/* {tags && tags.length ? (
-                            <div style={{ marginTop: `4rem` }}>
-                                <h4>Tags</h4>
-                                <ul className="taglist">
-                                    {tags.map((tag) => (
-                                        <li key={tag + `tag`}>
-                                            <Link to={`/tags/${kebabCase(tag)}/`}>{tag}</Link>
-                                        </li>
-                                    ))}
-                                </ul>
+                        <div className="columns">
+                            <div className="column is-4">
+                                <PreviewCompatibleImage
+                                    imageInfo={{
+                                        image: item.fields.image,
+                                        alt: `image of ${item.title}`,
+                                    }}
+                                />
                             </div>
-                        ) : null} */}
+                            <div className="column is-offset-1 is-7">
+                                <p>{item.description}</p>
+                            </div>
+                        </div>
+                        {/* <PostContent content={content} /> */}
                     </div>
                 </div>
             </div>
@@ -58,15 +62,15 @@ interface InventoryItemProps {
     data: { inventoryJson: any };
 }
 
-const InventoryItem: React.FC<InventoryItemProps> = ({ data }) => {
+const InventoryItemPage: React.FC<InventoryItemProps> = ({ data }) => {
     const { inventoryJson: item } = data;
+    console.log(item);
 
     return (
         <Layout>
             <InventoryItemTemplate
-                content={item.description}
+                item={item}
                 contentComponent={HTMLContent}
-                description={item.description}
                 helmet={
                     <Helmet titleTemplate="%s | Store">
                         <title>{`${item.name}`}</title>
@@ -74,40 +78,31 @@ const InventoryItem: React.FC<InventoryItemProps> = ({ data }) => {
                     </Helmet>
                 }
                 // tags={item.frontmatter.tags}
-                title={item.title}
             />
         </Layout>
     );
 };
 
-export default InventoryItem;
+export default InventoryItemPage;
 
 export const pageQuery = graphql`
     query InventoryItemByID($id: String!) {
         inventoryJson(id: { eq: $id }) {
             id
             name
+            title
             sku
             price
             description
+            fields {
+                image {
+                    childImageSharp {
+                        fluid {
+                            ...GatsbyImageSharpFluid
+                        }
+                    }
+                }
+            }
         }
     }
 `;
-// export const pageQuery = graphql`
-//     query InventoryItemByID($id: String!) {
-//         inventoryJson(id: { eq: $id }) {
-//             id
-//             name
-//             sku
-//             price
-//             description
-//             image {
-//                 childImageSharp {
-//                     fluid(maxWidth: 2048, quality: 100) {
-//                         ...GatsbyImageSharpFluid
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// `;

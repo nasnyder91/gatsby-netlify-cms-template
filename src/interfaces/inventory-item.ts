@@ -10,6 +10,7 @@ interface InventoryItem {
     sku?: string;
     fields?: { image: ImageInfo };
     isFeatured?: boolean;
+    description: string; // maybe change to html?
 }
 
 export default InventoryItem;

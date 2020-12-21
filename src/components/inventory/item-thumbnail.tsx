@@ -10,7 +10,6 @@ interface ItemThumbnailProps {
 }
 
 const ItemThumbnail: React.FC<ItemThumbnailProps> = ({ cssClassName, item }) => {
-    console.log(item);
     return (
         <div className={cssClassName}>
             <Link
