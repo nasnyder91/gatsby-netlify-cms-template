@@ -17,12 +17,12 @@ const defaultParams: SortingAndFiltering = {
     take: 10,
 };
 
-const handleLoadMore = (currInputs, setter) => {
-    setter({
-        ...currInputs,
-        skip: currInputs.skip + currInputs.take,
-    });
-};
+// const handleLoadMore = (currInputs, setter) => {
+//     setter({
+//         ...currInputs,
+//         skip: currInputs.skip + currInputs.take,
+//     });
+// };
 
 const InventoryListings: React.FC = () => {
     const itemGridRef = useRef(null);
