@@ -1,1 +1,22 @@
-{"title":"Southwest Veggie Omelette","active":true,"description":"description","image":"/img/placeholder.png","templateKey":"inventory-item-template","id":"1M6WYCY965MRY","hidden":false,"name":"Southwest Veggie Omelette","alternateName":"","code":"","sku":"","price":650,"priceType":"FIXED","defaultTaxRates":true,"unitName":"","cost":0,"isRevenue":true,"stockCount":0,"modifiedTime":1607953355000}
+{
+  "priceType": "FIXED",
+  "alternateName": "",
+  "templateKey": "inventory-item-template",
+  "active": true,
+  "defaultTaxRates": true,
+  "price": 650,
+  "hidden": false,
+  "name": "Southwest Veggie Omelette",
+  "code": "",
+  "cost": 0,
+  "featured": true,
+  "unitName": "",
+  "isRevenue": true,
+  "modifiedTime": 1607953355000,
+  "title": "Southwest Veggie Omelette",
+  "stockCount": 0,
+  "id": "1M6WYCY965MRY",
+  "image": "/img/blog-index.jpg",
+  "description": "This is a good omelette",
+  "sku": ""
+}
