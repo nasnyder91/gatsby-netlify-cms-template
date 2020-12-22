@@ -6,6 +6,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.1",
     "bulma": "^0.9.0",
+    "clover-ecomm-sdk": "^1.0.0",
     "gatsby": "^2.27.4",
     "gatsby-image": "^2.3.5",
     "gatsby-plugin-netlify": "^2.2.4",
