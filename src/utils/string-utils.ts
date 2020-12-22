@@ -1,17 +1,9 @@
 const stringIsEmpty = (value: string): boolean => {
-    if (value == null || value.length < 1) {
-        return true;
-    }
-
-    return false;
+    return value == null || value.length < 1;
 };
 
 const stringHasValue = (value: string): boolean => {
-    if (value != null && value.length > 0) {
-        return true;
-    }
-
-    return false;
+    return value != null && value.length > 0;
 };
 
 export { stringHasValue, stringIsEmpty };
