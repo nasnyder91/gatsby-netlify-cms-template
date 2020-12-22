@@ -1,4 +1,4 @@
-import { useRef, DependencyList, MutableRefObject } from "react";
+import { useRef, DependencyList, MutableRefObject, useCallback } from "react";
 import { useIsomorphicLayoutEffect } from "./use-isomorphic-layout-effect";
 
 interface IPosition {

@@ -5,7 +5,6 @@ import Layout from "../components/layout";
 import Features from "../components/features";
 import BlogRoll from "../components/blog-roll";
 import ImageInfo from "../interfaces/image-info";
-import Tester from "../components/tester";
 
 interface IndexPageTemplateProps {
     image: ImageInfo;
@@ -107,7 +106,6 @@ export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = ({
                                             Latest stories
                                         </h3>
                                         <BlogRoll />
-                                        <Tester />
                                         <div className="column is-12 has-text-centered">
                                             <Link className="btn" to="/blog">
                                                 Read more

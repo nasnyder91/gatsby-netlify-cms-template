@@ -1,10 +1,9 @@
 import { graphql, useStaticQuery } from "gatsby";
 import InventoryItem from "interfaces/inventory-item";
 import SortingAndFiltering, { Sort } from "interfaces/sorting-and-filtering";
-import { useEffect, useState } from "react";
-import { stringHasValue } from "../utils/string-utils";
+import { useMemo } from "react";
 
-const useInventoryItems = (inputs: SortingAndFiltering, prevInputs: SortingAndFiltering) => {
+const useInventoryItems = (inputs: SortingAndFiltering) => {
     const { allInventoryJson: { edges: items } = [] } = useStaticQuery(
         graphql`
             query ALL_INVENTORY_ITEMS {
@@ -32,41 +31,6 @@ const useInventoryItems = (inputs: SortingAndFiltering, prevInputs: SortingAndFi
         `
     );
 
-    const [allFilteredItems, setAllFilteredItems] = useState(items);
-
-    const [currentItems, setCurrentItems] = useState(
-        allFilteredItems.slice(inputs.skip, inputs.take)
-    );
-
-    useEffect(() => {
-        setCurrentItems(allFilteredItems.slice(inputs.skip, inputs.take));
-    }, [allFilteredItems]);
-
-    const handleParamChange = (): void => {
-        // if only the skip has changed, and no other params have changed, then load in next page of items
-        if (
-            inputs.searchText === prevInputs.searchText &&
-            inputs.sort === prevInputs.sort &&
-            inputs.skip !== prevInputs.skip
-        ) {
-            setCurrentItems([
-                ...currentItems,
-                ...allFilteredItems.slice(inputs.skip, inputs.skip + inputs.take),
-            ]);
-            return;
-        }
-
-        let filteredResults = [...items];
-
-        if (stringHasValue(inputs.searchText)) {
-            filteredResults = filterBySearchText(inputs.searchText, filteredResults);
-        }
-
-        filteredResults = orderAndSort(inputs.sort, filteredResults);
-
-        setAllFilteredItems(filteredResults);
-    };
-
     const filterBySearchText = (
         searchText: string,
         itemsToFilter: Array<{ node: InventoryItem }>
@@ -83,8 +47,6 @@ const useInventoryItems = (inputs: SortingAndFiltering, prevInputs: SortingAndFi
 
         return searchedResults;
     };
-
-    // const handleFilteringChange = (inputs) => {};
 
     const orderAndSort = (
         sortOption: Sort,
@@ -110,9 +72,19 @@ const useInventoryItems = (inputs: SortingAndFiltering, prevInputs: SortingAndFi
         return sortedResults;
     };
 
-    // const handleOrderByChange = () => {};
+    const sortedItems = useMemo(() => {
+        return orderAndSort(inputs.sort, items);
+    }, [items, inputs.sort]);
 
-    return { currentItems, allFilteredItems, handleParamChange };
+    const allFilteredItems = useMemo(() => {
+        return filterBySearchText(inputs.searchText, sortedItems);
+    }, [sortedItems, inputs]);
+
+    const currentItems = useMemo(() => {
+        return [...allFilteredItems.slice(0, inputs.skip + inputs.take)];
+    }, [allFilteredItems, inputs.skip]);
+
+    return { currentItems, allFilteredItems };
 };
 
 export default useInventoryItems;

@@ -125,6 +125,8 @@ const runPrebuild = async () => {
                 }
             ).then((response) => response.json());
 
+            // TODO add error handling
+
             // console.log(updateRefResponse);
 
             const cancelDeployResponse = await fetch(
