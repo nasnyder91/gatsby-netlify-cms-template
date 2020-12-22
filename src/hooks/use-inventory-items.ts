@@ -4,7 +4,7 @@ import SortingAndFiltering, { Sort } from "interfaces/sorting-and-filtering";
 import { useEffect, useState } from "react";
 import { stringHasValue } from "../utils/string-utils";
 
-const useInventoryItems = (initialParams: SortingAndFiltering) => {
+const useInventoryItems = (inputs: SortingAndFiltering, prevInputs: SortingAndFiltering) => {
     const { allInventoryJson: { edges: items } = [] } = useStaticQuery(
         graphql`
             query ALL_INVENTORY_ITEMS {
@@ -35,17 +35,14 @@ const useInventoryItems = (initialParams: SortingAndFiltering) => {
     const [allFilteredItems, setAllFilteredItems] = useState(items);
 
     const [currentItems, setCurrentItems] = useState(
-        allFilteredItems.slice(initialParams.skip, initialParams.take)
+        allFilteredItems.slice(inputs.skip, inputs.take)
     );
 
     useEffect(() => {
-        setCurrentItems(allFilteredItems.slice(initialParams.skip, initialParams.take));
+        setCurrentItems(allFilteredItems.slice(inputs.skip, inputs.take));
     }, [allFilteredItems]);
 
-    const handleParamChange = (
-        inputs: SortingAndFiltering,
-        prevInputs: SortingAndFiltering
-    ): void => {
+    const handleParamChange = (): void => {
         // if only the skip has changed, and no other params have changed, then load in next page of items
         if (
             inputs.searchText === prevInputs.searchText &&

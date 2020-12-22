@@ -34,14 +34,16 @@ const InventoryListings: React.FC = () => {
         setInputs(updatedInputs);
     };
 
-    const { currentItems, allFilteredItems, handleParamChange } = useInventoryItems(defaultParams);
+    const prevInputs = usePrevious(inputs) || defaultParams;
+    const { currentItems, allFilteredItems, handleParamChange } = useInventoryItems(
+        inputs,
+        prevInputs
+    );
     const currentItemsRef = useRef(currentItems);
     const allFilteredItemsRef = useRef(allFilteredItems);
 
-    const prevInputs = usePrevious(inputs) || defaultParams;
-
     useEffect(() => {
-        handleParamChange(inputs, prevInputs);
+        handleParamChange();
     }, [inputs]);
 
     useEffect(() => {
@@ -57,7 +59,7 @@ const InventoryListings: React.FC = () => {
                 currPos.y +
                     itemGridRef.current.getBoundingClientRect().height -
                     window.innerHeight <
-                    300
+                    400
             ) {
                 console.log(inputsRef.current);
                 setInputsWithRef({
@@ -69,7 +71,7 @@ const InventoryListings: React.FC = () => {
         [],
         itemGridRef,
         false,
-        150
+        100
     );
 
     return (
@@ -87,11 +89,11 @@ const InventoryListings: React.FC = () => {
                         );
                     })}
             </div>
-            {currentItems.length < allFilteredItems.length && (
+            {/* {currentItems.length < allFilteredItems.length && (
                 <button className="button" onClick={() => handleLoadMore(inputs, setInputsWithRef)}>
                     Load More
                 </button>
-            )}
+            )} */}
         </React.Fragment>
     );
 };
