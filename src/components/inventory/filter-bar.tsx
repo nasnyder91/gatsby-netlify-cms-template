@@ -1,13 +1,13 @@
-import InventoryItem from "../../interfaces/inventory-item";
-import SortingAndFiltering, { Sort } from "../../interfaces/sorting-and-filtering";
+import InventoryItem from "interfaces/inventory-item";
+import SortingAndFiltering, { Sort } from "interfaces/sorting-and-filtering";
 import React, { ChangeEvent } from "react";
-import { nameOf } from "../../utils/type-utils";
+import { nameOf } from "utils/type-utils";
 
-const sortSelectOptions: Array<Sort> = [
-    { orderBy: "desc", sortBy: nameOf<InventoryItem>("title") },
-    { orderBy: "asc", sortBy: nameOf<InventoryItem>("title") },
-    { orderBy: "desc", sortBy: nameOf<InventoryItem>("price") },
-    { orderBy: "asc", sortBy: nameOf<InventoryItem>("price") },
+export const filterBarSortSelectOptions: Array<Sort> = [
+    { orderBy: "asc", sortBy: nameOf<InventoryItem>("title"), displayName: "Title A-Z" },
+    { orderBy: "desc", sortBy: nameOf<InventoryItem>("title"), displayName: "Title Z-A" },
+    { orderBy: "asc", sortBy: nameOf<InventoryItem>("price"), displayName: "Price Asc" },
+    { orderBy: "desc", sortBy: nameOf<InventoryItem>("price"), displayName: "Price Desc" },
 ];
 
 interface FilterBarProps {
@@ -70,12 +70,12 @@ const FilterBar: React.FC<FilterBarProps> = ({ currentParams, onInputChanged }) 
                                                 sort: JSON.parse(e.currentTarget.value),
                                             })
                                         }>
-                                        {sortSelectOptions.map((option: Sort) => (
+                                        {filterBarSortSelectOptions.map((option: Sort) => (
                                             <option
                                                 key={option.sortBy + option.orderBy}
                                                 value={JSON.stringify(
                                                     option
-                                                )}>{`${option.sortBy} ${option.orderBy}`}</option>
+                                                )}>{`${option.displayName}`}</option>
                                         ))}
                                     </select>
                                 </div>

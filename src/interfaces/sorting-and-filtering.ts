@@ -1,6 +1,7 @@
 export interface Sort {
     orderBy: "desc" | "asc";
     sortBy: string;
+    displayName: string;
 }
 
 interface SortingAndFiltering {
