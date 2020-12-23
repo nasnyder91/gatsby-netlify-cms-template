@@ -17,61 +17,69 @@ interface FilterBarProps {
 
 const FilterBar: React.FC<FilterBarProps> = ({ currentParams, onInputChanged }) => {
     return (
-        <div className="level">
-            <div className="level-left">
-                <div className="field has-addons is-horizontal level-item">
-                    <div className="control has-icons-left">
-                        <span className="icon is-small is-left">
-                            <i className="fas fa-search"></i>
-                        </span>
-                        <input
-                            id="inventory-search-input"
-                            type="text"
-                            className="input"
-                            name="searchText"
-                            placeholder="Search"
-                            value={currentParams.searchText}
-                            onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                                onInputChanged({
-                                    ...currentParams,
-                                    skip: 0,
-                                    searchText: e.currentTarget.value,
-                                })
-                            }
-                        />
+        <div className="has-background-white sticky-top">
+            <div className="container">
+                <div className="level py-4">
+                    <div className="level-left">
+                        <div className="field has-addons is-horizontal level-item">
+                            <div className="control has-icons-left">
+                                <span className="icon is-small is-left">
+                                    <i className="fas fa-search"></i>
+                                </span>
+                                <input
+                                    id="inventory-search-input"
+                                    type="text"
+                                    className="input"
+                                    name="searchText"
+                                    placeholder="Search"
+                                    value={currentParams.searchText}
+                                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                                        onInputChanged({
+                                            ...currentParams,
+                                            skip: 0,
+                                            searchText: e.currentTarget.value,
+                                        })
+                                    }
+                                />
+                            </div>
+                            <div className="control">
+                                <button
+                                    className="button"
+                                    onClick={() =>
+                                        onInputChanged({
+                                            ...currentParams,
+                                            skip: 0,
+                                            searchText: "",
+                                        })
+                                    }>
+                                    Clear Search
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div className="control">
-                        <button
-                            className="button"
-                            onClick={() =>
-                                onInputChanged({ ...currentParams, skip: 0, searchText: "" })
-                            }>
-                            Clear Search
-                        </button>
-                    </div>
-                </div>
-            </div>
-            <div className="level-right">
-                <div className="field level-item">
-                    <div className="control">
-                        <div className="select">
-                            <select
-                                name="sort"
-                                onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-                                    onInputChanged({
-                                        ...currentParams,
-                                        skip: 0,
-                                        sort: JSON.parse(e.currentTarget.value),
-                                    })
-                                }>
-                                {sortSelectOptions.map((option: Sort) => (
-                                    <option
-                                        key={option.sortBy + option.orderBy}
-                                        value={JSON.stringify(
-                                            option
-                                        )}>{`${option.sortBy} ${option.orderBy}`}</option>
-                                ))}
-                            </select>
+                    <div className="level-right">
+                        <div className="field level-item">
+                            <div className="control">
+                                <div className="select">
+                                    <select
+                                        name="sort"
+                                        onChange={(e: ChangeEvent<HTMLSelectElement>) =>
+                                            onInputChanged({
+                                                ...currentParams,
+                                                skip: 0,
+                                                sort: JSON.parse(e.currentTarget.value),
+                                            })
+                                        }>
+                                        {sortSelectOptions.map((option: Sort) => (
+                                            <option
+                                                key={option.sortBy + option.orderBy}
+                                                value={JSON.stringify(
+                                                    option
+                                                )}>{`${option.sortBy} ${option.orderBy}`}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -24,11 +24,7 @@ export default class InventoryPage extends React.Component {
                     </h1>
                 </div>
                 <section className="section">
-                    <div className="container">
-                        <div className="content">
-                            <InventoryListings />
-                        </div>
-                    </div>
+                    <InventoryListings />
                 </section>
             </Layout>
         );

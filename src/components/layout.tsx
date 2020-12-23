@@ -2,7 +2,7 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import Footer from "./footer";
 import Navbar from "./navbar";
-import "./all.scss";
+import "../styles/all.scss";
 import useSiteMetadata from "../hooks/use-site-metadata";
 import { withPrefix } from "gatsby";
 

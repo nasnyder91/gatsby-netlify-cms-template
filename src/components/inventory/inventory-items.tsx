@@ -13,7 +13,7 @@ const defaultParams: SortingAndFiltering = {
     searchText: "",
     sort: { orderBy: "desc", sortBy: nameOf<InventoryItem>("title") },
     skip: 0,
-    take: 10,
+    take: 20,
 };
 
 const InventoryListings: React.FC = () => {
@@ -47,17 +47,21 @@ const InventoryListings: React.FC = () => {
     return (
         <React.Fragment>
             <FilterBar currentParams={inputs} onInputChanged={setInputs} />
-            <div className="columns is-multiline" ref={itemGridRef}>
-                {currentItems &&
-                    currentItems.map(({ node: item }) => {
-                        return (
-                            <ItemThumbnail
-                                cssClassName="column is-one-fifth"
-                                item={item}
-                                key={item.id}
-                            />
-                        );
-                    })}
+            <div className="container">
+                <div className="content">
+                    <div className="columns is-multiline" ref={itemGridRef}>
+                        {currentItems &&
+                            currentItems.map(({ node: item }) => {
+                                return (
+                                    <ItemThumbnail
+                                        cssClassName="column is-one-fifth"
+                                        item={item}
+                                        key={item.id}
+                                    />
+                                );
+                            })}
+                    </div>
+                </div>
             </div>
         </React.Fragment>
     );
