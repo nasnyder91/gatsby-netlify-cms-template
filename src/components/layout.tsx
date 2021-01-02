@@ -1,6 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import Footer from "./footer";
+import Footer from "~components/footer";
 import Navbar from "./navbar";
 import "../styles/all.scss";
 import useSiteMetadata from "../hooks/use-site-metadata";

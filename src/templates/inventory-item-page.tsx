@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet";
 import { graphql, Link } from "gatsby";
 import Layout from "../components/layout";
 import { HTMLContent } from "../components/content";
-import PreviewCompatibleImage from "../components/preview-compatible-image";
+import PreviewCompatibleImage from "../components/common/preview-compatible-image";
 import InventoryItem from "interfaces/inventory-item";
 import Breadcrumbs from "../components/breadcrumbs";
 

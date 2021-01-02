@@ -1,11 +1,11 @@
 import React, { useCallback, useRef } from "react";
-import ItemThumbnail from "components/inventory/item-thumbnail";
-import useInventoryItems from "hooks/use-inventory-items";
-import FilterBar, { filterBarSortSelectOptions } from "components/inventory/filter-bar";
-import SortingAndFiltering from "interfaces/sorting-and-filtering";
-import useInputChange from "hooks/use-input-change";
-import { useScrollPosition } from "hooks/use-scroll-position";
-import { arrayHasValues } from "utils/array-utils";
+import ItemThumbnail from "~components/inventory/item-thumbnail";
+import useInventoryItems from "~hooks/use-inventory-items";
+import FilterBar, { filterBarSortSelectOptions } from "~components/inventory/filter-bar";
+import SortingAndFiltering from "~interfaces/sorting-and-filtering";
+import useInputChange from "~hooks/use-input-change";
+import { useScrollPosition } from "~hooks/use-scroll-position";
+import { arrayHasValues } from "~utils/array-utils";
 
 const defaultParams: SortingAndFiltering = {
     searchText: "",

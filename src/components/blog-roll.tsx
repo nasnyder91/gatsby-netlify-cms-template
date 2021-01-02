@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, graphql, StaticQuery } from "gatsby";
-import PreviewCompatibleImage from "./preview-compatible-image";
+// import PreviewCompatibleImage from "./preview-compatible-image";
+import PreviewCompatibleImage from "~components/common/preview-compatible-image";
 
 interface BlogRollProps {
     data: { allMarkdownRemark: { edges: Array<any> } };

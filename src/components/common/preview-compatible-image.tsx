@@ -1,6 +1,6 @@
 import React from "react";
 import Img from "gatsby-image";
-import ImageInfo from "interfaces/image-info";
+import ImageInfo from "~interfaces/image-info";
 
 interface PreviewCompatibleImageProps {
     imageInfo: ImageInfo;

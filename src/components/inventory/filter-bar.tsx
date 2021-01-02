@@ -1,7 +1,7 @@
-import InventoryItem from "interfaces/inventory-item";
-import SortingAndFiltering, { Sort } from "interfaces/sorting-and-filtering";
+import InventoryItem from "~interfaces/inventory-item";
+import SortingAndFiltering, { Sort } from "~interfaces/sorting-and-filtering";
 import React, { ChangeEvent } from "react";
-import { nameOf } from "utils/type-utils";
+import { nameOf } from "~utils/type-utils";
 
 export const filterBarSortSelectOptions: Array<Sort> = [
     { orderBy: "asc", sortBy: nameOf<InventoryItem>("title"), displayName: "Title A-Z" },

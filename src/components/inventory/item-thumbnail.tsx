@@ -1,8 +1,8 @@
-import PreviewCompatibleImage from "../preview-compatible-image";
-import InventoryItem from "interfaces/inventory-item";
+import PreviewCompatibleImage from "~components/common/preview-compatible-image";
+import InventoryItem from "~interfaces/inventory-item";
 import React from "react";
 import { Link } from "gatsby";
-import { formatCurrency } from "../../utils/number-utils";
+import { formatCurrency } from "~utils/number-utils";
 
 interface ItemThumbnailProps {
     cssClassName: string;
