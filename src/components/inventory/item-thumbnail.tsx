@@ -1,4 +1,4 @@
-import PreviewCompatibleImage from "~components/common/preview-compatible-image";
+import PreviewCompatibleImage from "~components/preview-compatible-image";
 import InventoryItem from "~interfaces/inventory-item";
 import React from "react";
 import { Link } from "gatsby";

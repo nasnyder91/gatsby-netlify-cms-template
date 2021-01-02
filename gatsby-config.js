@@ -11,6 +11,22 @@ module.exports = {
         "gatsby-plugin-sass",
         `gatsby-plugin-typescript`,
         "gatsby-plugin-sharp",
+        {
+            resolve: `gatsby-plugin-alias-imports`,
+            options: {
+              alias: {
+                "~components": path.resolve(__dirname, "src/components"),
+                "~interfaces": path.resolve(__dirname, "src/interfaces"),
+                "~hooks": path.resolve(__dirname, "src/hooks"),
+                "~img": path.resolve(__dirname, "src/img"),
+                "~pages": path.resolve(__dirname, "src/pages"),
+                "~styles": path.resolve(__dirname, "src/styles"),
+                "~templates": path.resolve(__dirname, "src/templates"),
+                "~utils": path.resolve(__dirname, "src/utils"),
+              },
+              extensions: []
+            }
+        },
         "gatsby-transformer-sharp",
         {
             // keep as first gatsby-source-filesystem plugin for gatsby image support
@@ -76,35 +92,6 @@ module.exports = {
                 purgeOnly: ["/all.scss"], // applies purging only on the bulma css file
             },
         }, // must be after other CSS plugins
-        // {
-        //     resolve: "gatsby-plugin-root-import",
-        //     options: {
-        //         components: path.join(__dirname, "src/components/"),
-        //         interfaces: path.join(__dirname, "src/interfaces/"),
-        //         hooks: path.join(__dirname, "src/hooks/"),
-        //         img: path.join(__dirname, "src/img/"),
-        //         pages: path.join(__dirname, "src/pages/"),
-        //         styles: path.join(__dirname, "src/styles/"),
-        //         templates: path.join(__dirname, "src/templates/"),
-        //         utils: path.join(__dirname, "src/utils/"),
-        //     },
-        // },
-        {
-            resolve: `gatsby-plugin-alias-imports`,
-            options: {
-              alias: {
-                "~components": path.resolve(__dirname, "src/components"),
-                "~interfaces": path.resolve(__dirname, "src/interfaces"),
-                "~hooks": path.resolve(__dirname, "src/hooks"),
-                "~img": path.resolve(__dirname, "src/img"),
-                "~pages": path.resolve(__dirname, "src/pages"),
-                "~styles": path.resolve(__dirname, "src/styles"),
-                "~templates": path.resolve(__dirname, "src/templates"),
-                "~utils": path.resolve(__dirname, "src/utils"),
-              },
-              extensions: []
-            }
-        },
         "gatsby-plugin-netlify", // make sure to keep it last in the array
     ],
 };

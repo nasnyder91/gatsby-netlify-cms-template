@@ -1,7 +1,21 @@
 {
     "compilerOptions": {
-        "allowJs": true,
-        "allowSyntheticDefaultImports": true,
+      "allowSyntheticDefaultImports": true,
+      "allowUnreachableCode": false,
+      "allowUnusedLabels": false,
+      "declaration": true,
+      "declarationMap": true,
+      "esModuleInterop": true,
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "noImplicitReturns": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "pretty": true,
+      "sourceMap": true,
+      "strict": true,
+      "target": "es2017",
+      "lib": ["es2017"],
         "baseUrl": ".",
         "paths": {
             "~components/*": ["src/components/*"],
@@ -14,15 +28,10 @@
             "~utils/*": ["src/utils/*"],
         },
         "jsx": "react",
-        "lib": ["dom", "esnext", "es2015", "es2016", "es2017"],
-        "moduleResolution": "node",
         "noImplicitAny": false,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
         "plugins": [
             { "name": "typescript-styled-plugin" }
         ],
-        "target": "es2015",
         "typeRoots": ["./src/@types", "./node_modules/@types"]
     },
     "include": ["**/*.ts", "**/*.tsx"],

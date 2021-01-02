@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet";
 import { graphql, Link } from "gatsby";
 import Layout from "../components/layout";
 import { HTMLContent } from "../components/content";
-import PreviewCompatibleImage from "../components/common/preview-compatible-image";
+import PreviewCompatibleImage from "../components/preview-compatible-image";
 import InventoryItem from "interfaces/inventory-item";
 import Breadcrumbs from "../components/breadcrumbs";
 
@@ -34,9 +34,7 @@ export const InventoryItemTemplate: React.FC<InventoryItemTemplateProps> = ({
             <div className="container content">
                 <div className="columns">
                     <div className="column is-10 is-offset-1">
-                        <h1 className="title is-size-2 has-text-weight-bold is-bold-light">
-                            {item.title}
-                        </h1>
+                        <h1 className="title is-size-2 has-text-weight-bold is-bold-light">{item.title}</h1>
                         <div className="columns">
                             <div className="column is-4">
                                 <PreviewCompatibleImage

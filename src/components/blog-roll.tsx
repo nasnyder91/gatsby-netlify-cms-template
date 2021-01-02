@@ -1,7 +1,6 @@
 import React from "react";
 import { Link, graphql, StaticQuery } from "gatsby";
-// import PreviewCompatibleImage from "./preview-compatible-image";
-import PreviewCompatibleImage from "~components/common/preview-compatible-image";
+import PreviewCompatibleImage from "~components/preview-compatible-image";
 
 interface BlogRollProps {
     data: { allMarkdownRemark: { edges: Array<any> } };
@@ -31,15 +30,11 @@ const BlogRoll: React.FC<BlogRollProps> = ({ data }) => {
                                     </div>
                                 ) : null}
                                 <p className="post-meta">
-                                    <Link
-                                        className="title has-text-primary is-size-4"
-                                        to={post.fields.slug}>
+                                    <Link className="title has-text-primary is-size-4" to={post.fields.slug}>
                                         {post.frontmatter.title}
                                     </Link>
                                     <span> &bull; </span>
-                                    <span className="subtitle is-size-5 is-block">
-                                        {post.frontmatter.date}
-                                    </span>
+                                    <span className="subtitle is-size-5 is-block">{post.frontmatter.date}</span>
                                 </p>
                             </header>
                             <p>

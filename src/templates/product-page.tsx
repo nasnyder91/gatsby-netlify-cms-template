@@ -4,7 +4,7 @@ import Layout from "../components/layout";
 import FeatureGrid from "../components/features";
 import Testimonials from "../components/testimonials";
 import Pricing from "../components/pricing";
-import PreviewCompatibleImage from "../components/common/preview-compatible-image";
+import PreviewCompatibleImage from "../components/preview-compatible-image";
 import ImageInfo from "../interfaces/image-info";
 
 interface ProductPageTemplateProps {
@@ -44,9 +44,7 @@ export const ProductPageTemplate: React.FC<ProductPageTemplateProps> = ({
         <div
             className="full-width-image-container margin-top-0"
             style={{
-                backgroundImage: `url(${
-                    !!image.childImageSharp ? image.childImageSharp.fluid.src : image
-                })`,
+                backgroundImage: `url(${!!image.childImageSharp ? image.childImageSharp.fluid.src : image})`,
             }}>
             <h2
                 className="has-text-weight-bold is-size-1"
@@ -73,9 +71,7 @@ export const ProductPageTemplate: React.FC<ProductPageTemplateProps> = ({
                             <FeatureGrid gridItems={intro.blurbs} />
                             <div className="columns">
                                 <div className="column is-7">
-                                    <h3 className="has-text-weight-semibold is-size-3">
-                                        {main.heading}
-                                    </h3>
+                                    <h3 className="has-text-weight-semibold is-size-3">{main.heading}</h3>
                                     <p>{main.description}</p>
                                 </div>
                             </div>
@@ -105,15 +101,11 @@ export const ProductPageTemplate: React.FC<ProductPageTemplateProps> = ({
                                 className="full-width-image-container"
                                 style={{
                                     backgroundImage: `url(${
-                                        fullImage.childImageSharp
-                                            ? fullImage.childImageSharp.fluid.src
-                                            : fullImage
+                                        fullImage.childImageSharp ? fullImage.childImageSharp.fluid.src : fullImage
                                     })`,
                                 }}
                             />
-                            <h2 className="has-text-weight-semibold is-size-2">
-                                {pricing.heading}
-                            </h2>
+                            <h2 className="has-text-weight-semibold is-size-2">{pricing.heading}</h2>
                             <p className="is-size-5">{pricing.description}</p>
                             <Pricing data={pricing.plans} />
                         </div>
