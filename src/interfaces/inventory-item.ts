@@ -8,6 +8,7 @@ interface InventoryItem {
     stockCount: number;
     id: string;
     sku: string;
+    image: string;
     fields: { image: ImageInfo };
     isFeatured?: boolean;
     description: string; // maybe change to html?

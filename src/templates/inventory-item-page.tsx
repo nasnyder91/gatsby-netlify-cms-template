@@ -39,7 +39,7 @@ export const InventoryItemTemplate: React.FC<InventoryItemTemplateProps> = ({
                             <div className="column is-4">
                                 <PreviewCompatibleImage
                                     imageInfo={{
-                                        image: item.fields.image,
+                                        image: item.fields?.image ?? item.image,
                                         alt: `image of ${item.title}`,
                                     }}
                                 />
