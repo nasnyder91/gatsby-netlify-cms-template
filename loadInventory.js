@@ -9,7 +9,7 @@ const runPrebuild = async () => {
             headers: {
                 Accept: "application/json",
             },
-        }
+        },
     )
         .then((response) => response.json())
         .catch((err) => console.log(err));
@@ -21,11 +21,9 @@ const runPrebuild = async () => {
         let itemChanged = false;
 
         try {
-            fileData = JSON.parse(
-                fs.readFileSync(`./src/pages/inventory/${item.id}.json`, "utf-8")
-            );
+            fileData = JSON.parse(fs.readFileSync(`./src/pages/inventory/${item.id}.json`, "utf-8"));
 
-            for (var key of Object.keys(item)) {
+            for (const key of Object.keys(item)) {
                 if (item[key] !== fileData[key]) {
                     itemChanged = true;
                     break;
@@ -68,7 +66,7 @@ const runPrebuild = async () => {
             }
 
             const gitRefResponse = await fetch(
-                "https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/ref/heads/master"
+                "https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/ref/heads/master",
             ).then((response) => response.json());
 
             // console.log(gitRefResponse.object);
@@ -86,7 +84,7 @@ const runPrebuild = async () => {
                         Authorization: `token ${process.env.GITHUB_API_TOKEN}`,
                     },
                     body: JSON.stringify(postTreeBody),
-                }
+                },
             ).then((response) => response.json());
 
             // console.log("TREE: ", treeResponse);
@@ -105,7 +103,7 @@ const runPrebuild = async () => {
                         Authorization: `token ${process.env.GITHUB_API_TOKEN}`,
                     },
                     body: JSON.stringify(commitBody),
-                }
+                },
             ).then((response) => response.json());
 
             // console.log(commitResponse);
@@ -122,7 +120,7 @@ const runPrebuild = async () => {
                         Authorization: `token ${process.env.GITHUB_API_TOKEN}`,
                     },
                     body: JSON.stringify(updateRefBody),
-                }
+                },
             ).then((response) => response.json());
 
             // TODO add error handling
@@ -137,7 +135,7 @@ const runPrebuild = async () => {
                         Accept: "application/json",
                         Authorization: `bearer ${process.env.NETLIFY_API_TOKEN}`,
                     },
-                }
+                },
             );
 
             // console.log(cancelDeployResponse);

@@ -10,10 +10,10 @@ const InventoryItemPreview: React.FC<BlogPostPreviewProps> = ({ entry, widgetFor
     // const tags = entry.getIn(["data", "tags"]);
     return (
         <InventoryItemTemplate
-            content={widgetFor("body")}
-            description={entry.getIn(["data", "description"])}
+            contentComponent={widgetFor("body")}
+            item={entry.getIn(["data"])}
             // tags={tags && tags.toJS()}
-            title={entry.getIn(["data", "title"])}
+            // title={entry.getIn(["data", "title"])}
         />
     );
 };
