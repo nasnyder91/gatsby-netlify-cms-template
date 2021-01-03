@@ -1,7 +1,7 @@
 import React from "react";
 import { graphql } from "gatsby";
-import Layout from "../components/layout";
-import { HTMLContent } from "../components/content";
+import Layout from "~components/layout";
+import { HTMLContent } from "~components/content";
 
 interface CheckoutPageTemplateProps {
     content: string;
@@ -9,11 +9,7 @@ interface CheckoutPageTemplateProps {
     title: string;
 }
 
-export const CheckoutPageTemplate: React.FC<CheckoutPageTemplateProps> = ({
-                                                                        title,
-                                                                        content,
-                                                                        contentComponent,
-                                                                    }) => {
+export const CheckoutPageTemplate: React.FC<CheckoutPageTemplateProps> = ({ title, content, contentComponent }) => {
     const PageContent = contentComponent || HTMLContent;
 
     return (
@@ -22,9 +18,7 @@ export const CheckoutPageTemplate: React.FC<CheckoutPageTemplateProps> = ({
                 <div className="columns">
                     <div className="column is-10 is-offset-1">
                         <div className="section">
-                            <h2 className="title is-size-3 has-text-weight-bold is-bold-light">
-                                {title}
-                            </h2>
+                            <h2 className="title is-size-3 has-text-weight-bold is-bold-light">{title}</h2>
                             <PageContent cssClassName="content" content={content} />
                         </div>
                     </div>
@@ -43,11 +37,7 @@ const CheckoutPage: React.FC<CheckoutPageProps> = ({ data }) => {
 
     return (
         <Layout>
-            <CheckoutPageTemplate
-                contentComponent={HTMLContent}
-                title={post.frontmatter.title}
-                content={post.html}
-            />
+            <CheckoutPageTemplate contentComponent={HTMLContent} title={post.frontmatter.title} content={post.html} />
         </Layout>
     );
 };

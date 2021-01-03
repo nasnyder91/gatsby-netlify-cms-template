@@ -1,7 +1,6 @@
 import ImageInfo from "~interfaces/image-info";
 import React from "react";
-import PreviewCompatibleImage from "./preview-compatible-image";
-// import PreviewCompatibleImage from "~components/preview-compatible-image";
+import PreviewCompatibleImage from "~components/preview-compatible-image";
 
 interface FeatureGridProps {
     gridItems: Array<{ image: {} | string; text: string }>;

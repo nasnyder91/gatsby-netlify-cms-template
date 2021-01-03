@@ -1,11 +1,11 @@
 import React from "react";
 import { graphql } from "gatsby";
-import Layout from "../components/layout";
-import FeatureGrid from "../components/features";
-import Testimonials from "../components/testimonials";
-import Pricing from "../components/pricing";
-import PreviewCompatibleImage from "../components/preview-compatible-image";
-import ImageInfo from "../interfaces/image-info";
+import Layout from "~components/layout";
+import FeatureGrid from "~components/features";
+import Testimonials from "~components/testimonials";
+import Pricing from "~components/pricing";
+import PreviewCompatibleImage from "~components/preview-compatible-image";
+import ImageInfo from "~interfaces/image-info";
 
 interface ProductPageTemplateProps {
     image: ImageInfo;

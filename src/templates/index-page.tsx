@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link, graphql } from "gatsby";
 
-import Layout from "../components/layout";
-import Features from "../components/features";
-import BlogRoll from "../components/blog-roll";
-import ImageInfo from "../interfaces/image-info";
+import Layout from "~components/layout";
+import Features from "~components/features";
+import BlogRoll from "~components/blog-roll";
+import ImageInfo from "~interfaces/image-info";
 
 interface IndexPageTemplateProps {
     image: ImageInfo;
@@ -30,9 +30,7 @@ export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = ({
             <div
                 className="full-width-image margin-top-0"
                 style={{
-                    backgroundImage: `url(${
-                        !!image.childImageSharp ? image.childImageSharp.fluid.src : image
-                    })`,
+                    backgroundImage: `url(${!!image.childImageSharp ? image.childImageSharp.fluid.src : image})`,
                     backgroundPosition: `top left`,
                     backgroundAttachment: `fixed`,
                 }}>
@@ -48,8 +46,7 @@ export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = ({
                     <h1
                         className="has-text-weight-bold is-size-3-mobile is-size-2-tablet is-size-1-widescreen"
                         style={{
-                            boxShadow:
-                                "rgb(255, 68, 0) 0.5rem 0px 0px, rgb(255, 68, 0) -0.5rem 0px 0px",
+                            boxShadow: "rgb(255, 68, 0) 0.5rem 0px 0px, rgb(255, 68, 0) -0.5rem 0px 0px",
                             backgroundColor: "rgb(255, 68, 0)",
                             color: "white",
                             lineHeight: "1",
@@ -60,8 +57,7 @@ export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = ({
                     <h3
                         className="has-text-weight-bold is-size-5-mobile is-size-5-tablet is-size-4-widescreen"
                         style={{
-                            boxShadow:
-                                "rgb(255, 68, 0) 0.5rem 0px 0px, rgb(255, 68, 0) -0.5rem 0px 0px",
+                            boxShadow: "rgb(255, 68, 0) 0.5rem 0px 0px, rgb(255, 68, 0) -0.5rem 0px 0px",
                             backgroundColor: "rgb(255, 68, 0)",
                             color: "white",
                             lineHeight: "1",
@@ -87,9 +83,7 @@ export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = ({
                                     </div>
                                     <div className="columns">
                                         <div className="column is-12">
-                                            <h3 className="has-text-weight-semibold is-size-2">
-                                                {heading}
-                                            </h3>
+                                            <h3 className="has-text-weight-semibold is-size-2">{heading}</h3>
                                             <p>{description}</p>
                                         </div>
                                     </div>
@@ -102,9 +96,7 @@ export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = ({
                                         </div>
                                     </div>
                                     <div className="column is-12">
-                                        <h3 className="has-text-weight-semibold is-size-2">
-                                            Latest stories
-                                        </h3>
+                                        <h3 className="has-text-weight-semibold is-size-2">Latest stories</h3>
                                         <BlogRoll />
                                         <div className="column is-12 has-text-centered">
                                             <Link className="btn" to="/blog">

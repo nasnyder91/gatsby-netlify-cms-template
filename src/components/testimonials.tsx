@@ -1,6 +1,6 @@
 import React from "react";
 import { v4 } from "uuid";
-import Testimonial from "../interfaces/testimonial";
+import Testimonial from "~interfaces/testimonial";
 
 interface TestimonialsProps {
     testimonials: Array<Testimonial>;

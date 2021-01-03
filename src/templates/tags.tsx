@@ -1,7 +1,7 @@
 import React from "react";
 import { Helmet } from "react-helmet";
 import { Link, graphql } from "gatsby";
-import Layout from "../components/layout";
+import Layout from "~components/layout";
 
 interface TagRouteProps {
     data: { allMarkdownRemark: { edges: any; totalCount: any }; site: any };

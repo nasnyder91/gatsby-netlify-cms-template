@@ -1,11 +1,11 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import { graphql, Link } from "gatsby";
-import Layout from "../components/layout";
-import { HTMLContent } from "../components/content";
-import PreviewCompatibleImage from "../components/preview-compatible-image";
-import InventoryItem from "interfaces/inventory-item";
-import Breadcrumbs from "../components/breadcrumbs";
+import { graphql } from "gatsby";
+import Layout from "~components/layout";
+import { HTMLContent } from "~components/content";
+import PreviewCompatibleImage from "~components/preview-compatible-image";
+import InventoryItem from "~interfaces/inventory-item";
+import Breadcrumbs from "~components/breadcrumbs";
 
 interface InventoryItemTemplateProps {
     item: InventoryItem;
