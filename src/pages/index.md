@@ -1,21 +1,19 @@
 ---
 templateKey: index-page
-title: Great coffee with a conscience
-image: /img/home-jumbotron.jpg
-heading: Great coffee with a conscience
-subheading: Support sustainable farming while enjoying a cup
+title: Pairings Cigar Bar
+image: /img/cigar-bag.webp
+heading: Come for the cigars... Stay for the experience.
+subheading: Pairings offers a luxury cigar experience in the Philadelphia suburb of Media, Pennsylvania.
 mainpitch:
-  title: Why Kaldi
+  title: WELCOME TO PAIRINGS CIGAR BAR
   description: >
-    Kaldi is the coffee store for everyone who believes that great coffee
-    shouldn't just taste good, it should do good too. We source all of our beans
-    directly from small scale sustainable farmers and make sure part of the
-    profits are reinvested in their communities.
+    Pairings Cigar Bar is a unique concept in the Philadelphia suburb of Media, Pennsylvania.
+    With over 400 premium cigar options in refrigerated and humidified cabinets as well as a 
+    walk-in humidor, and state-of-the-art air filtration systems, we are a destination for the most discerning cigar smoker.
 description: >-
-  Kaldi is the ultimate spot for coffee lovers who want to learn about their
-  java’s origin and support the farmers that grew it. We take coffee production,
-  roasting and brewing seriously and we’re glad to pass that knowledge to
-  anyone.
+  Our full bar features an extensive selection of spirits, wine and beer with over 80 whiskeys.
+  Our kitchen offers flatbreads, wings and small plates including mini crab cakes and sweet potato tater tots and oversized Bavarian pretzels.
+  Our distinctive setting invites guests to stay, enjoy a small bite to eat, relax, and experience the luxury setting that is Pairings Cigar Bar.
 intro:
   blurbs:
     - image: /img/coffee.png

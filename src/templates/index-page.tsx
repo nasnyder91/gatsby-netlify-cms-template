@@ -31,7 +31,7 @@ export const IndexPageTemplate: React.FC<IndexPageTemplateProps> = ({
                 className="full-width-image margin-top-0"
                 style={{
                     backgroundImage: `url(${!!image.childImageSharp ? image.childImageSharp.fluid.src : image})`,
-                    backgroundPosition: `top left`,
+                    backgroundPosition: `left`,
                     backgroundAttachment: `fixed`,
                 }}>
                 <div
