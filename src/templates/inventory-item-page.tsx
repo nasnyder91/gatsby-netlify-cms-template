@@ -46,7 +46,7 @@ export const InventoryItemTemplate: React.FC<InventoryItemTemplateProps> = ({
                                 />
                             </div>
                             <div className="column is-offset-1 is-7">
-                                <PostContent content={item.fields.htmlDescription} />
+                                <PostContent content={item.fields?.htmlDescription ?? item.description} />
                             </div>
                         </div>
                     </div>
