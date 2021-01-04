@@ -2,6 +2,9 @@ const _ = require("lodash");
 const path = require("path");
 const { createFilePath } = require("gatsby-source-filesystem");
 const { fmImagesToRelative } = require("gatsby-remark-relative-images");
+const showdown = require("showdown");
+
+const mdConverter = new showdown.Converter();
 
 exports.onCreateWebpackConfig = ({ actions }) => {
     actions.setWebpackConfig({
@@ -77,9 +80,7 @@ exports.createPages = ({ actions, graphql }) => {
             createPage({
                 path: edge.node.fields.slug,
                 tags: edge.node.frontmatter.tags,
-                component: path.resolve(
-                    `src/templates/${String(edge.node.frontmatter.templateKey)}.tsx`
-                ),
+                component: path.resolve(`src/templates/${String(edge.node.frontmatter.templateKey)}.tsx`),
                 // additional data can be passed via context
                 context: {
                     id,
@@ -129,12 +130,20 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
     }
 
     if (node.internal.type === "InventoryJson") {
-        const relativePath = `../../../static${node.image}`;
+        const convertedMD = mdConverter.makeHtml(node.description);
+
+        const relativeImagePath = `../../../static${node.image}`;
 
         createNodeField({
             node,
             name: "image",
-            value: relativePath,
+            value: relativeImagePath,
+        });
+
+        createNodeField({
+            node,
+            name: "htmlDescription",
+            value: convertedMD,
         });
     }
 };

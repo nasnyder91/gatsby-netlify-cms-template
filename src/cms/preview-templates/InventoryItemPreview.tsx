@@ -1,5 +1,5 @@
 import React from "react";
-import { InventoryItemTemplate } from "../../templates/inventory-item-page";
+import { InventoryItemTemplate } from "~templates/inventory-item-page";
 
 interface BlogPostPreviewProps {
     entry: any;
@@ -7,7 +7,11 @@ interface BlogPostPreviewProps {
 }
 
 const InventoryItemPreview: React.FC<BlogPostPreviewProps> = ({ entry, widgetFor }) => {
-    return <InventoryItemTemplate item={entry.get("data").toJS()} />;
+    const previewedItem = {
+        ...entry.get("data").toJS(),
+        description: widgetFor("description"),
+    };
+    return <InventoryItemTemplate item={previewedItem} />;
 };
 
 export default InventoryItemPreview;

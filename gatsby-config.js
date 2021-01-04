@@ -78,13 +78,13 @@ module.exports = {
                 ],
             },
         },
+        `gatsby-transformer-json`,
         {
             resolve: "gatsby-plugin-netlify-cms",
             options: {
                 modulePath: `${__dirname}/src/cms/cms.js`,
             },
         },
-        `gatsby-transformer-json`,
         {
             resolve: "gatsby-plugin-purgecss", // purges all unused/unreferenced css rules
             options: {

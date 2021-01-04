@@ -9,7 +9,10 @@ interface InventoryItem {
     id: string;
     sku: string;
     image: string;
-    fields: { image: ImageInfo };
+    fields: {
+        htmlDescription: string;
+        image: ImageInfo;
+    };
     isFeatured?: boolean;
     description: string; // maybe change to html?
 }

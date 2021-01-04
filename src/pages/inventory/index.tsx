@@ -1,7 +1,7 @@
 import React from "react";
 
-import InventoryListings from "../../components/inventory/inventory-items";
-import Layout from "../../components/layout";
+import InventoryListings from "~components/inventory/inventory-items";
+import Layout from "~components/layout";
 
 export default class InventoryPage extends React.Component {
     render() {

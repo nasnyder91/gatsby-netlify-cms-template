@@ -82,8 +82,8 @@ collections:
     slug: "{{id}}-{{name}}"
     fields:
       - {label: "Template Key", name: "templateKey", widget: "hidden", default: "inventory-item-page"}
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Active", name: "active", widget: "boolean"}
-      - {label: "Featured", name: "featured", widget: "boolean"}
-      - {label: "Description", name: "description", widget: "text"}
-      - {label: "Image", name: "image", widget: "image"}
+      - {label: "Title", name: "title", widget: "string", required: true}
+      - {label: "Active", name: "active", widget: "boolean", default: false}
+      - {label: "Featured", name: "featured", widget: "boolean", required: false}
+      - {label: "Description", name: "description", widget: "markdown", required: true}
+      - {label: "Image", name: "image", widget: "image", required: false}

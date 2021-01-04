@@ -1,5 +1,5 @@
 import React from "react";
-import { BlogPostTemplate } from "../../templates/blog-post";
+import { BlogPostTemplate } from "~templates/blog-post";
 
 interface BlogPostPreviewProps {
     entry: { getIn: (data: Array<string>) => any };

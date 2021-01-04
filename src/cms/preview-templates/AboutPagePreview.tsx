@@ -1,5 +1,5 @@
 import React from "react";
-import { AboutPageTemplate } from "../../templates/about-page";
+import { AboutPageTemplate } from "~templates/about-page";
 
 interface AboutPagePreviewProps {
     entry: { getIn: (data: Array<string>) => any };

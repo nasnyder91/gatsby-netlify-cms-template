@@ -2,14 +2,14 @@ import React from "react";
 import { Helmet } from "react-helmet";
 import { graphql } from "gatsby";
 import Layout from "~components/layout";
-import { HTMLContent } from "~components/content";
+import Content, { HTMLContent } from "~components/content";
 import PreviewCompatibleImage from "~components/preview-compatible-image";
 import InventoryItem from "~interfaces/inventory-item";
 import Breadcrumbs from "~components/breadcrumbs";
 
 interface InventoryItemTemplateProps {
     item: InventoryItem;
-    contentComponent?: typeof HTMLContent;
+    contentComponent?: typeof Content;
     // tags: Array<string>;
     helmet?: any;
 }
@@ -20,7 +20,8 @@ export const InventoryItemTemplate: React.FC<InventoryItemTemplateProps> = ({
     // tags,
     helmet,
 }) => {
-    const PostContent = contentComponent || HTMLContent;
+    const PostContent = contentComponent || Content;
+    console.log(item.fields.htmlDescription);
 
     return (
         <section className="section">
@@ -45,10 +46,9 @@ export const InventoryItemTemplate: React.FC<InventoryItemTemplateProps> = ({
                                 />
                             </div>
                             <div className="column is-offset-1 is-7">
-                                <p>{item.description}</p>
+                                <PostContent content={item.fields.htmlDescription} />
                             </div>
                         </div>
-                        {/* <PostContent content={content} /> */}
                     </div>
                 </div>
             </div>
@@ -100,6 +100,7 @@ export const pageQuery = graphql`
                         }
                     }
                 }
+                htmlDescription
             }
         }
     }
