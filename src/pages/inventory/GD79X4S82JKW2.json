@@ -1,1 +1,20 @@
-{"title":"12 Layer Grilled Cheese","active":true,"description":"description","image":"/img/placeholder.png","templateKey":"inventory-item-template","id":"GD79X4S82JKW2","hidden":false,"name":"12 Layer Grilled Cheese","alternateName":"","code":"","price":300,"priceType":"FIXED","defaultTaxRates":true,"unitName":"","cost":0,"isRevenue":true,"stockCount":0,"modifiedTime":1607996060000}
+{
+  "priceType": "FIXED",
+  "alternateName": "",
+  "templateKey": "inventory-item-template",
+  "active": false,
+  "defaultTaxRates": true,
+  "price": 300,
+  "hidden": false,
+  "name": "12 Layer Grilled Cheese",
+  "code": "",
+  "cost": 0,
+  "unitName": "",
+  "isRevenue": true,
+  "modifiedTime": 1607996060000,
+  "title": "12 Layer Grilled Cheese",
+  "stockCount": 0,
+  "id": "GD79X4S82JKW2",
+  "image": "/img/placeholder.png",
+  "description": "description"
+}
