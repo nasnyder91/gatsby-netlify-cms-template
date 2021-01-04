@@ -2,7 +2,7 @@
   "priceType": "FIXED",
   "alternateName": "",
   "templateKey": "inventory-item-template",
-  "active": false,
+  "active": true,
   "defaultTaxRates": true,
   "price": 300,
   "hidden": false,
@@ -16,5 +16,5 @@
   "stockCount": 0,
   "id": "GD79X4S82JKW2",
   "image": "/img/cigar-bag.webp",
-  "description": "# **Grilled and cheesy**\n\n**This is a grilled cheese sandwhich with super bold text**"
+  "description": "# **Grilled and cheesy**\n\n**This is a grilled cheese sandwich with super bold text**"
 }
