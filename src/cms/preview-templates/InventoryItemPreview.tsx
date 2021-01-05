@@ -11,7 +11,7 @@ const InventoryItemPreview: React.FC<BlogPostPreviewProps> = ({ entry, widgetFor
         ...entry.get("data").toJS(),
         description: widgetFor("description"),
     };
-    return <InventoryItemTemplate item={previewedItem} />;
+    return <InventoryItemTemplate item={previewedItem} isCmsPreview={true} />;
 };
 
 export default InventoryItemPreview;

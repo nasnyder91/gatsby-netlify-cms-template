@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { graphql } from "gatsby";
 import Layout from "~components/layout";
@@ -12,6 +12,7 @@ interface InventoryItemTemplateProps {
     contentComponent?: typeof Content;
     // tags: Array<string>;
     helmet?: any;
+    isCmsPreview?: boolean;
 }
 
 export const InventoryItemTemplate: React.FC<InventoryItemTemplateProps> = ({
@@ -19,34 +20,47 @@ export const InventoryItemTemplate: React.FC<InventoryItemTemplateProps> = ({
     contentComponent,
     // tags,
     helmet,
+    isCmsPreview,
 }) => {
     const PostContent = contentComponent || Content;
-    console.log(item.fields.htmlDescription);
+
+    const [currentStock, setCurrentStock] = useState(-1);
+
+    useEffect(() => {
+        if (!isCmsPreview) {
+            fetch(`/.netlify/functions/retrieve-item-stock?id=${item.id}`)
+                .then((response) => response.json())
+                .then((result) => setCurrentStock(result.stockCount))
+                .catch((err) => console.log(err));
+        }
+    }, []);
 
     return (
         <section className="section">
             {helmet || ""}
-            <Breadcrumbs
-                breadcrumbs={[
-                    { href: `/inventory`, name: "Store" },
-                    { href: `/items/${item.id}`, name: item.title },
-                ]}
-            />
-            <div className="container content">
-                <div className="columns">
-                    <div className="column is-10 is-offset-1">
-                        <h1 className="title is-size-2 has-text-weight-bold is-bold-light">{item.title}</h1>
-                        <div className="columns">
-                            <div className="column is-4">
-                                <PreviewCompatibleImage
-                                    imageInfo={{
-                                        image: item.fields?.image ?? item.image,
-                                        alt: `image of ${item.title}`,
-                                    }}
-                                />
-                            </div>
-                            <div className="column is-offset-1 is-7">
-                                <PostContent content={item.fields?.htmlDescription ?? item.description} />
+            <div className="container">
+                <Breadcrumbs
+                    breadcrumbs={[
+                        { href: `/inventory`, name: "Store" },
+                        { href: `/items/${item.id}`, name: item.title },
+                    ]}
+                />
+                <div className="content">
+                    <div className="columns">
+                        <div className="column is-10 is-offset-1">
+                            <h1 className="title is-size-2 has-text-weight-bold is-bold-light">{item.title}</h1>
+                            <div className="columns">
+                                <div className="column is-4">
+                                    <PreviewCompatibleImage
+                                        imageInfo={{
+                                            image: item.fields?.image ?? item.image,
+                                            alt: `image of ${item.title}`,
+                                        }}
+                                    />
+                                </div>
+                                <div className="column is-offset-1 is-7">
+                                    <PostContent content={item.fields?.htmlDescription ?? item.description} />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -62,7 +76,6 @@ interface InventoryItemProps {
 
 const InventoryItemPage: React.FC<InventoryItemProps> = ({ data }) => {
     const { inventoryJson: item } = data;
-    console.log(item);
 
     return (
         <Layout>
