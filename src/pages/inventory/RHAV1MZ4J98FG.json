@@ -1,1 +1,21 @@
-{"title":"Apple Juice","active":true,"description":"description","image":"/img/placeholder.png","templateKey":"inventory-item-template","id":"RHAV1MZ4J98FG","hidden":false,"name":"Apple Juice","alternateName":"","code":"","sku":"","price":180,"priceType":"FIXED","defaultTaxRates":true,"unitName":"","cost":0,"isRevenue":true,"stockCount":0,"modifiedTime":1609808308000}
+{
+  "priceType": "FIXED",
+  "alternateName": "",
+  "templateKey": "inventory-item-template",
+  "active": true,
+  "defaultTaxRates": true,
+  "price": 180,
+  "hidden": false,
+  "name": "Apple Juice",
+  "code": "",
+  "cost": 0,
+  "unitName": "",
+  "isRevenue": true,
+  "modifiedTime": 1609808308000,
+  "title": "Apple Juice",
+  "stockCount": 0,
+  "id": "RHAV1MZ4J98FG",
+  "image": "/img/placeholder.png",
+  "description": "descriptionhjkmfghjgfjgfhjfg",
+  "sku": ""
+}
