@@ -1,1 +1,21 @@
-{"title":"Anne's Salad","active":true,"description":"description","image":"/img/placeholder.png","templateKey":"inventory-item-template","id":"VM502S0VDFHSG","hidden":false,"name":"Anne's Salad","alternateName":"","code":"","sku":"","price":650,"priceType":"FIXED","defaultTaxRates":true,"unitName":"","cost":0,"isRevenue":true,"stockCount":0,"modifiedTime":1609808306000}
+{
+  "priceType": "FIXED",
+  "alternateName": "",
+  "templateKey": "inventory-item-template",
+  "active": true,
+  "defaultTaxRates": true,
+  "price": 650,
+  "hidden": false,
+  "name": "Anne's Salad",
+  "code": "",
+  "cost": 0,
+  "unitName": "",
+  "isRevenue": true,
+  "modifiedTime": 1609808306000,
+  "title": "Anne's Salad",
+  "stockCount": 0,
+  "id": "VM502S0VDFHSG",
+  "image": "/img/products-grid1.jpg",
+  "description": "descriptionmnm,n,mn\n\nkmkjk",
+  "sku": ""
+}
