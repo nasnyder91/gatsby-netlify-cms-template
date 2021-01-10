@@ -14,7 +14,17 @@ local_backend: true
 media_folder: static/img
 public_folder: /img
 
+# publish_mode: editorial_workflow
+
 collections:
+  - name: "sync-clover-items"
+    label: "Sync Clover Items"
+    identifier_field: name
+    create: true
+    folder: "src/clover-sync-logs"
+    fields:
+      - {label: "Log Title", name: "logtitle", widget: "clover-sync-log-title"}
+      - {label: "Log Description", name: "logdescription", widget: "clover-sync-log-description"}
   - name: "blog"
     label: "Blog"
     folder: "src/pages/blog"

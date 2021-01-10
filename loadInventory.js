@@ -15,7 +15,7 @@ const runPrebuild = async () => {
         .catch((err) => console.log(err));
 
     const itemsChanged = [];
-
+    // TODO ADD CHECK FOR REMOVED ITEMS
     response.elements.forEach((item) => {
         let fileData;
         let itemChanged = false;

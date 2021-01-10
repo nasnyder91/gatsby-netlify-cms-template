@@ -5,7 +5,7 @@ import Layout from "~components/layout";
 import Content, { HTMLContent } from "~components/content";
 import PreviewCompatibleImage from "~components/preview-compatible-image";
 import InventoryItem from "~interfaces/inventory-item";
-import Breadcrumbs from "~components/breadcrumbs";
+import Breadcrumbs from "~components/navigation/breadcrumbs";
 
 interface InventoryItemTemplateProps {
     item: InventoryItem;

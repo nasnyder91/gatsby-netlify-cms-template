@@ -4,7 +4,7 @@ import Footer from "~components/footer";
 import "~styles/all.scss";
 import useSiteMetadata from "~hooks/use-site-metadata";
 import { withPrefix } from "gatsby";
-import Navbar from "~components/navbar";
+import Navbar from "~components/navigation/navbar";
 
 const TemplateWrapper: React.FC = ({ children }) => {
     const { title, description } = useSiteMetadata();
