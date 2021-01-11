@@ -145,9 +145,11 @@ const runPrebuild = async () => {
             }
             // console.log(gitRefResponse.object);
 
+            tree = tree.filter((blob) => blob.type !== "tree");
+
             const postTreeBody = {
                 tree: tree,
-                base_tree: gitRefResponse.object.sha,
+                // base_tree: gitLatestCommitTreeResponse.sha,
             };
             const treeResponse = await fetch(
                 "https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/trees",
@@ -180,7 +182,7 @@ const runPrebuild = async () => {
                 },
             ).then((response) => response.json());
 
-            // console.log(commitResponse);
+            console.log(commitResponse);
 
             const updateRefBody = {
                 sha: commitResponse.sha,
@@ -196,8 +198,6 @@ const runPrebuild = async () => {
                     body: JSON.stringify(updateRefBody),
                 },
             ).then((response) => response.json());
-
-            // TODO add error handling
 
             // console.log(updateRefResponse);
 
