@@ -1,22 +1,31 @@
 const fetch = require("node-fetch");
 const fs = require("fs");
+const glob = require("glob");
 
 const runPrebuild = async () => {
     const response = await fetch(
-        "https://sandbox.dev.clover.com/v3/merchants/J9MV77D46ST91/items?access_token=582540d1-2fa6-dd03-7699-e107e6c03c0d",
+        "https://sandbox.dev.clover.com/v3/merchants/J9MV77D46ST91/items?access_token=582540d1-2fa6-dd03-7699-e107e6c03c0d&limit=500",
         {
             method: "GET",
             headers: {
                 Accept: "application/json",
             },
         },
-    )
-        .then((response) => response.json())
-        .catch((err) => console.log(err));
+    );
+
+    if (!response.ok) {
+        return {
+            statusCode: 422,
+            body: `Clover API responded with status code: ${response.status}`,
+        };
+    }
+
+    const results = await response.json();
 
     const itemsChanged = [];
-    // TODO ADD CHECK FOR REMOVED ITEMS
-    response.elements.forEach((item) => {
+    const itemsRemoved = [];
+
+    results.elements.forEach((item) => {
         let fileData;
         let itemChanged = false;
 
@@ -45,7 +54,16 @@ const runPrebuild = async () => {
         }
     });
 
-    if (itemsChanged.length > 0) {
+    glob.sync("./src/pages/inventory/*.json").forEach((file) => {
+        const itemId = file.split("/").pop().split(".")[0];
+
+        if (results.elements.find((item) => item.id === itemId) == null) {
+            const item = JSON.parse(fs.readFileSync(file, "utf-8"));
+            itemsRemoved.push({ ...item });
+        }
+    });
+
+    if (itemsChanged.length > 0 || itemsRemoved.length > 0) {
         const treeItems = [];
 
         if (!process.env.GITHUB_API_TOKEN) {
@@ -54,25 +72,81 @@ const runPrebuild = async () => {
         }
 
         try {
-            for (const item of itemsChanged) {
-                const itemPath = `src/pages/inventory/${item.id}.json`;
+            // for (const item of itemsChanged) {
+            //     const itemPath = `src/pages/inventory/${item.id}.json`;
 
-                treeItems.push({
-                    path: itemPath,
-                    mode: "100644",
-                    type: "blob",
-                    content: JSON.stringify(item),
-                });
-            }
+            //     treeItems.push({
+            //         path: itemPath,
+            //         mode: "100644",
+            //         type: "blob",
+            //         content: JSON.stringify(item),
+            //     });
+            // }
 
             const gitRefResponse = await fetch(
                 "https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/ref/heads/master",
+                {
+                    headers: {
+                        Accept: "application/vnd.github.v3+json",
+                        Authorization: `token ${process.env.GITHUB_API_TOKEN}`,
+                    },
+                },
             ).then((response) => response.json());
 
+            // console.log(gitRefResponse);
+
+            const gitLatestCommitResponse = await fetch(
+                `https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/commits/${gitRefResponse.object.sha}`,
+                {
+                    headers: {
+                        Accept: "application/vnd.github.v3+json",
+                        Authorization: `token ${process.env.GITHUB_API_TOKEN}`,
+                    },
+                },
+            ).then((response) => response.json());
+
+            // console.log("LATEST COMMIT: ", gitLatestCommitResponse);
+
+            const gitLatestCommitTreeResponse = await fetch(
+                `https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/trees/${gitLatestCommitResponse.tree.sha}?recursive=1`,
+                {
+                    headers: {
+                        Accept: "application/vnd.github.v3+json",
+                        Authorization: `token ${process.env.GITHUB_API_TOKEN}`,
+                    },
+                },
+            ).then((response) => response.json());
+
+            let tree = gitLatestCommitTreeResponse.tree;
+
+            // console.log("TREE:  ", gitLatestCommitTreeResponse);
+
+            if (itemsChanged.length > 0) {
+                for (const item of itemsChanged) {
+                    const itemPath = `src/pages/inventory/${item.id}.json`;
+
+                    const itemIndex = tree.findIndex((i) => i.path.includes(item.id));
+                    console.log("BEFORE: ", tree[itemIndex]);
+
+                    if (itemIndex > -1) {
+                        tree[itemIndex] = {
+                            path: itemPath,
+                            mode: "100644",
+                            type: "blob",
+                            content: JSON.stringify(item),
+                        };
+                    }
+                    console.log("AFTER: ", tree[itemIndex]);
+                }
+            }
+
+            if (itemsRemoved.length > 0) {
+                tree = tree.filter((item) => !itemsRemoved.some((i) => item.path.includes(i.id)));
+            }
             // console.log(gitRefResponse.object);
 
             const postTreeBody = {
-                tree: treeItems,
+                tree: tree,
                 base_tree: gitRefResponse.object.sha,
             };
             const treeResponse = await fetch(
@@ -90,7 +164,7 @@ const runPrebuild = async () => {
             // console.log("TREE: ", treeResponse);
 
             const commitBody = {
-                message: `${itemsChanged.length} items synced from Clover API`,
+                message: `Synced with Clover API. ${itemsChanged.length} items updated/created. ${itemsRemoved.length} items removed.`,
                 tree: treeResponse.sha,
                 parents: [gitRefResponse.object.sha],
             };
