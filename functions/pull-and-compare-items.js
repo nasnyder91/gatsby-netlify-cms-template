@@ -26,11 +26,11 @@ module.exports.handler = async (event, context) => {
 
     const itemsUpdated = [];
     const itemsAdded = [];
-    const itemsRemoved = []; // TODO add functionality to check for this
+    const itemsRemoved = [];
 
     results.elements.forEach((item) => {
         try {
-            fileData = JSON.parse(fs.readFileSync(`./src/pages/inventory/${item.id}.json`, "utf-8"));
+            fileData = JSON.parse(fs.readFileSync(__dirname + `src/pages/inventory/${item.id}.json`, "utf-8"));
             for (const key of Object.keys(item)) {
                 if (item[key] !== fileData[key]) {
                     itemsUpdated.push({ ...item });
@@ -42,7 +42,7 @@ module.exports.handler = async (event, context) => {
         }
     });
 
-    glob.sync("./src/pages/inventory/*.json").forEach((file) => {
+    glob.sync(__dirname + "src/pages/inventory/*.json").forEach((file) => {
         const itemId = file.split("/").pop().split(".")[0];
 
         if (results.elements.find((item) => item.id === itemId) == null) {
