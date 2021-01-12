@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+    flags: {QUERY_ON_DEMAND: true},
     siteMetadata: {
         title: "Gatsby + Netlify CMS Starter",
         description:
