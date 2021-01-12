@@ -115,7 +115,6 @@ const runPrebuild = async () => {
                     const itemPath = `src/pages/inventory/${item.id}.json`;
 
                     const itemIndex = tree.findIndex((i) => i.path.includes(item.id));
-                    console.log("BEFORE: ", tree[itemIndex]);
 
                     if (itemIndex > -1) {
                         tree[itemIndex] = {
@@ -125,7 +124,6 @@ const runPrebuild = async () => {
                             content: JSON.stringify(item),
                         };
                     }
-                    console.log("AFTER: ", tree[itemIndex]);
                 }
             }
 
@@ -138,7 +136,6 @@ const runPrebuild = async () => {
 
             const postTreeBody = {
                 tree: tree,
-                // base_tree: gitLatestCommitTreeResponse.sha,
             };
             const treeResponse = await fetch(
                 "https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/trees",
