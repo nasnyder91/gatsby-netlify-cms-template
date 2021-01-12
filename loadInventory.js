@@ -34,12 +34,14 @@ const runPrebuild = async () => {
 
             for (const key of Object.keys(item)) {
                 if (item[key] !== fileData[key]) {
+                    console.log("ITEM CHANGED: ", item);
                     itemChanged = true;
                     break;
                 }
             }
         } catch {
             itemChanged = true;
+            console.log("ITEM ADDED: ", item);
             fileData = {
                 title: item.name,
                 active: false,
