@@ -1,6 +1,4 @@
-import { graphql, useStaticQuery } from "gatsby";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import useAllInventoryItems from "~hooks/use-all-inventory-items";
 import CmsWidgetProps from "~interfaces/cms-widget-props";
 import InventoryItem from "~interfaces/inventory-item";
 import { arrayHasValues, arrayIsEmpty } from "~utils/array-utils";
@@ -10,8 +8,7 @@ function importAll(r) {
     return r.keys().map(r);
 }
 
-const itemFiles = importAll(require.context("../../../pages/inventory/", false, /\.(json)$/));
-console.log("ITEMS:  ", itemFiles);
+const localInventoryItems = importAll(require.context("../../../pages/inventory/", false, /\.(json)$/));
 
 const CloverSyncLogDescription: React.FC<CmsWidgetProps> = ({ value, classNameWrapper, onChange }) => {
     const [loadingCloverItems, setLoadingCloverItems] = useState(true); // TODO create and change to useLoading hook
@@ -23,36 +20,81 @@ const CloverSyncLogDescription: React.FC<CmsWidgetProps> = ({ value, classNameWr
             .catch((err) => handlePullCloverItemsFailure(err));
     };
 
-    const handlePullCloverItemsSuccess = (cloverItems: Array<InventoryItem>) => {
-        console.log(cloverItems);
-        // if (
-        //     arrayIsEmpty(changedItems.itemsAdded) &&
-        //     arrayIsEmpty(changedItems.itemsUpdated) &&
-        //     arrayIsEmpty(changedItems.itemsRemoved)
-        // ) {
-        //     onChange("No items detected to have changed.");
-        //     setLoadingCloverItems(false);
-        // }
-        // let newDescription = "Clover inventory items have been updated:\n\n";
-        // if (arrayHasValues(changedItems.itemsAdded)) {
-        //     const itemsAddedStringified = changedItems.itemsAdded.map((item) => item.name).join("\n");
-        //     newDescription += `Added Items:\n${itemsAddedStringified}\n\n`;
-        // }
-        // if (arrayHasValues(changedItems.itemsUpdated)) {
-        //     const itemsUpdatedStringified = changedItems.itemsUpdated.map((item) => item.name).join("\n");
-        //     newDescription += `Updated Items:\n${itemsUpdatedStringified}\n\n`;
-        // }
-        // if (arrayHasValues(changedItems.itemsRemoved)) {
-        //     const itemsRemovedStringified = changedItems.itemsRemoved.map((item) => item.name).join("\n");
-        //     newDescription += `Removed Items:\n${itemsRemovedStringified}`;
-        // }
-        // onChange(newDescription);
-        // setLoadingCloverItems(false);
+    const handlePullCloverItemsSuccess = (cloverItems: { elements: Array<InventoryItem> }) => {
+        const itemComparisons = compareCloverItemsToLocal(cloverItems.elements);
+        buildDescription(itemComparisons);
     };
 
     const handlePullCloverItemsFailure = (err: any) => {
         const message = `Error received when attempting to determine updated Clover inventory items: ${String(err)}`;
         onChange(message);
+        setLoadingCloverItems(false);
+    };
+
+    const compareCloverItemsToLocal = (
+        cloverItems: Array<InventoryItem>,
+    ): {
+        itemsAdded: Array<InventoryItem>;
+        itemsUpdated: Array<InventoryItem>;
+        itemsRemoved: Array<InventoryItem>;
+    } => {
+        const itemsUpdated: Array<InventoryItem> = [];
+        const itemsAdded: Array<InventoryItem> = [];
+        const itemsRemoved: Array<InventoryItem> = [];
+
+        cloverItems.forEach((item: InventoryItem) => {
+            const localItem = localInventoryItems.find((i: InventoryItem) => i.id === item.id);
+
+            if (localItem == null) {
+                itemsAdded.push(item);
+            } else {
+                for (const key of Object.keys(item)) {
+                    if (item[key] !== localItem[key]) {
+                        itemsUpdated.push(item);
+                        break;
+                    }
+                }
+            }
+        });
+
+        localInventoryItems.forEach((i: InventoryItem) => {
+            if (cloverItems.find((ci: InventoryItem) => ci.id === i.id) == null) {
+                itemsRemoved.push(i);
+            }
+        });
+
+        return { itemsUpdated, itemsAdded, itemsRemoved };
+    };
+
+    const buildDescription = (itemComparisons: {
+        itemsAdded: Array<InventoryItem>;
+        itemsUpdated: Array<InventoryItem>;
+        itemsRemoved: Array<InventoryItem>;
+    }): void => {
+        if (
+            arrayIsEmpty(itemComparisons.itemsAdded) &&
+            arrayIsEmpty(itemComparisons.itemsUpdated) &&
+            arrayIsEmpty(itemComparisons.itemsRemoved)
+        ) {
+            onChange("No items detected to have changed.");
+            setLoadingCloverItems(false);
+            return;
+        }
+
+        let newDescription = "Clover inventory items have been updated:\n\n";
+        if (arrayHasValues(itemComparisons.itemsAdded)) {
+            const itemsAddedStringified = itemComparisons.itemsAdded.map((item) => item.name).join("\n");
+            newDescription += `Added Items:\n${itemsAddedStringified}\n\n`;
+        }
+        if (arrayHasValues(itemComparisons.itemsUpdated)) {
+            const itemsUpdatedStringified = itemComparisons.itemsUpdated.map((item) => item.name).join("\n");
+            newDescription += `Updated Items:\n${itemsUpdatedStringified}\n\n`;
+        }
+        if (arrayHasValues(itemComparisons.itemsRemoved)) {
+            const itemsRemovedStringified = itemComparisons.itemsRemoved.map((item) => item.name).join("\n");
+            newDescription += `Removed Items:\n${itemsRemovedStringified}`;
+        }
+        onChange(newDescription);
         setLoadingCloverItems(false);
     };
 
@@ -70,7 +112,14 @@ const CloverSyncLogDescription: React.FC<CmsWidgetProps> = ({ value, classNameWr
         return <p className={classNameWrapper}>Loading...</p>;
     }
 
-    return <textarea className={classNameWrapper} value={value} onChange={handleDescriptionChange} />;
+    return (
+        <textarea
+            className={classNameWrapper}
+            style={{ height: "300px" }}
+            value={value}
+            onChange={handleDescriptionChange}
+        />
+    );
 };
 
 export default CloverSyncLogDescription;

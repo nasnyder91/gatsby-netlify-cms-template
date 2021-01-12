@@ -72,17 +72,6 @@ const runPrebuild = async () => {
         }
 
         try {
-            // for (const item of itemsChanged) {
-            //     const itemPath = `src/pages/inventory/${item.id}.json`;
-
-            //     treeItems.push({
-            //         path: itemPath,
-            //         mode: "100644",
-            //         type: "blob",
-            //         content: JSON.stringify(item),
-            //     });
-            // }
-
             const gitRefResponse = await fetch(
                 "https://api.github.com/repos/nasnyder91/gatsby-netlify-cms-template/git/ref/heads/master",
                 {
