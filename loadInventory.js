@@ -34,14 +34,12 @@ const runPrebuild = async () => {
 
             for (const key of Object.keys(item)) {
                 if (item[key] !== fileData[key]) {
-                    console.log("ITEM CHANGED: ", item);
                     itemChanged = true;
                     break;
                 }
             }
         } catch {
             itemChanged = true;
-            console.log("ITEM ADDED: ", item);
             fileData = {
                 title: item.name,
                 active: false,
@@ -118,13 +116,17 @@ const runPrebuild = async () => {
 
                     const itemIndex = tree.findIndex((i) => i.path.includes(item.id));
 
+                    const blobObject = {
+                        path: itemPath,
+                        mode: "100644",
+                        type: "blob",
+                        content: JSON.stringify(item),
+                    };
+
                     if (itemIndex > -1) {
-                        tree[itemIndex] = {
-                            path: itemPath,
-                            mode: "100644",
-                            type: "blob",
-                            content: JSON.stringify(item),
-                        };
+                        tree[itemIndex] = blobObject;
+                    } else {
+                        tree.push(blobObject);
                     }
                 }
             }
@@ -170,7 +172,7 @@ const runPrebuild = async () => {
                 },
             ).then((response) => response.json());
 
-            console.log(commitResponse);
+            // console.log(commitResponse);
 
             const updateRefBody = {
                 sha: commitResponse.sha,
