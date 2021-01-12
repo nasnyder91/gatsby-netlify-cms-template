@@ -105,6 +105,8 @@ const CloverSyncLogDescription: React.FC<CmsWidgetProps> = ({ value, classNameWr
     useEffect(() => {
         if (stringIsEmpty(value)) {
             pullCloverItems();
+        } else {
+            setLoadingCloverItems(false);
         }
     }, []);
 
