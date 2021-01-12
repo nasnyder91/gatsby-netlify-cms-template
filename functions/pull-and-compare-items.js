@@ -5,6 +5,7 @@ const glob = require("glob");
 // On successful Clover API request, compares and returns items that have been added or changed.
 
 module.exports.handler = async (event, context) => {
+    console.log(process.env.NODE_ENV);
     const devEnv = process.env.NODE_ENV === "development";
 
     const response = await fetch(
