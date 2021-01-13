@@ -32,6 +32,12 @@ export const InventoryItemTemplate: React.FC<InventoryItemTemplateProps> = ({
                 .then((response) => response.json())
                 .then((result) => setCurrentStock(result.stockCount))
                 .catch((err) => console.log(err));
+
+            fetch(`/.netlify/functions/charge-item`)
+                .then((response) => response.json())
+                .then((result) => console.log('result', result))
+                .catch((err) => console.log(err));
+
         }
     }, []);
 
