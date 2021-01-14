@@ -2,7 +2,7 @@ const fetch = require("node-fetch");
 const Clover = require("clover-ecomm-sdk");
 const access_token = '582540d1-2fa6-dd03-7699-e107e6c03c0d';
 const cloverInst = new Clover(access_token, {
-    environment: 'development'
+    environment: 'sandbox'
 });
 
 
