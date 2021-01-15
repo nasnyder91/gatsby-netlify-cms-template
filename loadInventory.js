@@ -64,8 +64,6 @@ const runPrebuild = async () => {
     });
 
     if (itemsChanged.length > 0 || itemsRemoved.length > 0) {
-        const treeItems = [];
-
         if (!process.env.GITHUB_API_TOKEN) {
             console.error("Github API Token not set");
             return;

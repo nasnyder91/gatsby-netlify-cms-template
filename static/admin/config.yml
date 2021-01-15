@@ -19,7 +19,7 @@ public_folder: /img
 collections:
   - name: "sync-clover-items"
     label: "Sync Clover Items"
-    identifier_field: name
+    identifier_field: logtitle
     create: true
     folder: "src/clover-sync-logs"
     fields:
