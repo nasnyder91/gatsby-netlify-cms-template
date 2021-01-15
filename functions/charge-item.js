@@ -2,7 +2,7 @@ const fetch = require("node-fetch");
 const Clover = require("clover-ecomm-sdk");
 const access_token = '582540d1-2fa6-dd03-7699-e107e6c03c0d';
 const cloverInst = new Clover(access_token, {
-    environment: 'development'
+    environment: 'sandbox'
 });
 
 
@@ -34,7 +34,7 @@ module.exports.handler = async (event, context) => {
             'exp_year': '2030',
             'cvv': '123'
         },
-        'apiKey': access_token
+        'apiKey': '792cdbef907a078de5dad83b0641e169'
     });
 
     let charge = await cloverInst.charges.create({
